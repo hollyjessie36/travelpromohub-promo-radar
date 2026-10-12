@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-12T15:00:48.910294+00:00",
+  "fetched_at": "2026-10-12T15:06:20.125989+00:00",
   "brand": "travelpromohub",
   "display": "TravelPromoHub",
   "currency": "USD",
@@ -149,17 +149,8 @@
       "deals": "https://www.ncl.com/cruise-deals",
       "affiliate": "",
       "outbound": "https://www.ncl.com/cruise-deals",
-      "offers": [
-        {
-          "offer": "CruiseFirst: up to $150 credit",
-          "condition": "on your 3+ nights cruise",
-          "official": "Save up to $150 by purchasing a CruiseFirst credit on your 3+ nights cruise provided the voyage date is more than ninety (90) days from the original purchase date.",
-          "source": "https://www.ncl.com/cruise-deals",
-          "verify": "verified",
-          "review_date": "2026-10-12"
-        }
-      ],
-      "status": "ok"
+      "offers": [],
+      "status": "no_offers_found"
     },
     {
       "name": "Singapore Airlines",
