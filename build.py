@@ -300,6 +300,15 @@ def write_sitemap(cfg, burl, urls, lastmod):
     open(os.path.join(SITE, "sitemap.xml"), "w", encoding="utf-8").write("\n".join(lines))
 
 
+def write_headers():
+    # 关键：默认情况下 Cloudflare Pages 会把 HTML 在边缘缓存最多 7 天（s-maxage=604800）。
+    # 这会导致“本轮被撤下的优惠页”在线上残留（命中旧缓存），与 no_unverified_published 规则冲突。
+    # 这里把所有响应在边缘只缓存 60 秒并要求 revalidate，保证每 6 小时刷新 / 撤下能及时生效。
+    # 配合 workflow 部署后清一次边缘缓存，撤下的优惠页不会在线上滞留。
+    rules = ["/*", "  Cache-Control: public, max-age=0, s-maxage=60, must-revalidate"]
+    open(os.path.join(SITE, "_headers"), "w", encoding="utf-8").write("\n".join(rules) + "\n")
+
+
 def main():
     global REVIEW_DATE
     cfg = sitecfg.load_config()
@@ -314,6 +323,7 @@ def main():
             shutil.rmtree(p)
     os.makedirs(os.path.join(SITE, "providers"), exist_ok=True)
     os.makedirs(os.path.join(SITE, "deals"), exist_ok=True)
+    write_headers()   # 限制 HTML 边缘缓存，避免撤下的优惠页在线上残留
 
     # 只发布“核到官方页原话（verify=verified）”的 offer：有真实名 + 真条件 + 官方原话 + 已核验。
     # 核不到原话的只留在 data 里作留痕，不进 site / sitemap / 品牌页 / 对比页。
