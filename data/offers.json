@@ -1,15 +1,17 @@
 {
-  "fetched_at": "2026-10-12T13:19:59.624940+00:00",
+  "fetched_at": "2026-10-12T15:00:48.910294+00:00",
   "brand": "travelpromohub",
   "display": "TravelPromoHub",
   "currency": "USD",
   "locale": "en-US",
+  "review_date": "2026-10-12",
   "providers": [
     {
       "name": "Priceline",
       "slug": "priceline",
       "site": "https://www.priceline.com",
       "deals": "https://www.priceline.com/partner/deals",
+      "affiliate": "",
       "outbound": "https://www.priceline.com/partner/deals",
       "offers": [],
       "status": "no_offers_found"
@@ -19,6 +21,7 @@
       "slug": "hertz",
       "site": "https://www.hertz.com",
       "deals": "https://www.hertz.com/rentacar/special-offers",
+      "affiliate": "",
       "outbound": "https://www.hertz.com/rentacar/special-offers",
       "offers": [],
       "status": "no_offers_found"
@@ -28,51 +31,32 @@
       "slug": "avis",
       "site": "https://www.avis.com",
       "deals": "https://www.avis.com/en/offers/us-offers",
+      "affiliate": "",
       "outbound": "https://www.avis.com/en/offers/us-offers",
       "offers": [
         {
-          "title": "Avis: rental? Visit Avis at any of our city or neighborhood locations, and get up to 10% off your next",
-          "price": null,
-          "discount": "10% off",
-          "threshold": null,
-          "currency": null,
-          "condition": "Weekly",
-          "offer_url": "https://www.avis.com/en/offers/us-offers",
-          "valid_until": null,
-          "source_url": "https://www.avis.com/en/offers/us-offers"
+          "offer": "10% off at local Avis locations",
+          "condition": "at local Avis locations",
+          "official": "Save 10% at local Avis locations",
+          "source": "https://www.avis.com/en/offers/us-offers",
+          "verify": "verified",
+          "review_date": "2026-10-12"
         },
         {
-          "title": "Avis: Maximum upgrade to premium. Save up to 25% on 5+ day rentals You can save up to 25% off weekly c",
-          "price": null,
-          "discount": "25% off",
-          "threshold": 175.0,
-          "currency": null,
-          "condition": "Minimum spend $175; Weekly",
-          "offer_url": "https://www.avis.com/en/offers/us-offers",
-          "valid_until": null,
-          "source_url": "https://www.avis.com/en/offers/us-offers"
+          "offer": "Up to 25% off 5+ day rentals",
+          "condition": "on 5+ day rentals",
+          "official": "Save up to 25% on 5+ day rentals",
+          "source": "https://www.avis.com/en/offers/us-offers",
+          "verify": "verified",
+          "review_date": "2026-10-12"
         },
         {
-          "title": "Avis: more. Weekly car rental deals from Avis make it easy to vacation longer. Enjoy $10 off when yo",
-          "price": 10.0,
-          "discount": null,
-          "threshold": 175.0,
-          "currency": "USD",
-          "condition": "Minimum spend $175; Weekly",
-          "offer_url": "https://www.avis.com/en/offers/us-offers",
-          "valid_until": null,
-          "source_url": "https://www.avis.com/en/offers/us-offers"
-        },
-        {
-          "title": "Avis: l deals from Avis make it easy to vacation longer. Enjoy $10 off when you spend $175 on Rental o",
-          "price": 175.0,
-          "discount": null,
-          "threshold": 10.0,
-          "currency": "USD",
-          "condition": "Minimum spend $175; Weekly",
-          "offer_url": "https://www.avis.com/en/offers/us-offers",
-          "valid_until": null,
-          "source_url": "https://www.avis.com/en/offers/us-offers"
+          "offer": "$10 off on $175+ 3+ day rentals",
+          "condition": "when you spend $175 on Rental of 3 Days or More",
+          "official": "Enjoy $10 off when you spend $175 on Rental of 3 Days or More",
+          "source": "https://www.avis.com/en/offers/us-offers",
+          "verify": "verified",
+          "review_date": "2026-10-12"
         }
       ],
       "status": "ok"
@@ -82,6 +66,7 @@
       "slug": "getyourguide",
       "site": "https://www.getyourguide.com",
       "deals": "https://www.getyourguide.com/c/discount-code",
+      "affiliate": "",
       "outbound": "https://www.getyourguide.com/c/discount-code",
       "offers": [],
       "status": "robots_disallowed"
@@ -91,6 +76,7 @@
       "slug": "sixt",
       "site": "https://www.sixt.com",
       "deals": "https://www.sixt.com/rental-services/best-deals/",
+      "affiliate": "",
       "outbound": "https://www.sixt.com/rental-services/best-deals/",
       "offers": [],
       "status": "robots_disallowed"
@@ -100,6 +86,7 @@
       "slug": "ihg",
       "site": "https://www.ihg.com",
       "deals": "https://www.ihg.com/offers",
+      "affiliate": "",
       "outbound": "https://www.ihg.com/offers",
       "offers": [],
       "status": "http_403"
@@ -109,95 +96,48 @@
       "slug": "wyndham",
       "site": "https://www.wyndhamhotels.com",
       "deals": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
+      "affiliate": "",
       "outbound": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
       "offers": [
         {
-          "title": "Wyndham: elf. × Wyndham Vacation Clubs: Save 15% on Resort-Style Suites × Members Get 10–20% Off × Winter",
-          "price": null,
-          "discount": "20% off",
-          "threshold": null,
-          "currency": null,
-          "condition": "For members",
-          "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
-          "valid_until": null,
-          "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
+          "offer": "Wyndham Rewards members: 10-20% off",
+          "condition": "Members",
+          "official": "Members Get 10-20% Off",
+          "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
+          "verify": "verified",
+          "review_date": "2026-10-12"
         },
         {
-          "title": "Wyndham: embers Save 15% Autumn adventures await: For a limited time, AARP members enjoy 15% off two or m",
-          "price": null,
-          "discount": "15% off",
-          "threshold": 50.0,
-          "currency": null,
-          "condition": "AAA members; Valid through 2026-12-31",
-          "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
-          "valid_until": null,
-          "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
+          "offer": "AARP members: 15% off 2+ consecutive nights",
+          "condition": "AARP members; two or more consecutive nights",
+          "official": "For a limited time, AARP members enjoy 15% off two or more consecutive nights at thousands of participating hotels worldwide.",
+          "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
+          "verify": "verified",
+          "review_date": "2026-10-12"
         },
         {
-          "title": "Wyndham: AARP Members Save 15% Fall into savings: For a limited time, AARP members enjoy 15% off two or m",
-          "price": null,
-          "discount": "15% off",
-          "threshold": null,
-          "currency": null,
-          "condition": "AAA members; Valid through 2026-12-31",
-          "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
-          "valid_until": null,
-          "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
+          "offer": "$5+ off per night",
+          "condition": "per Night",
+          "official": "Get $5+ off per Night",
+          "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
+          "verify": "verified",
+          "review_date": "2026-10-12"
         },
         {
-          "title": "Wyndham: Price × Bring on the Fireworks! × Get $5+ off per Night × Save up to 20% × Get 15% Off or More ×",
-          "price": null,
-          "discount": "15% off",
-          "threshold": 5.0,
-          "currency": null,
-          "condition": "For members; Per Night",
-          "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
-          "valid_until": null,
-          "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
+          "offer": "Earn up to 100,000 Bonus Points (Earner Plus Card)",
+          "condition": "Limited-Time Offer",
+          "official": "Limited-Time Offer: Earn up to 100,000 Bonus Points with the NEW Wyndham Rewards Earner Plus Card.",
+          "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
+          "verify": "verified",
+          "review_date": "2026-10-12"
         },
         {
-          "title": "Wyndham: s with the NEW Wyndham Rewards Earner® Plus Card. Plus, earn up to 6 points per $1 spent on el",
-          "price": 1.0,
-          "discount": null,
-          "threshold": null,
-          "currency": "USD",
-          "condition": "Valid through 2026-10-21",
-          "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
-          "valid_until": null,
-          "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
-        },
-        {
-          "title": "Wyndham: first 30 days of joining. 1 Bonus points offer ends Nov. 2, 2026 and requires a $50 minimum spe",
-          "price": 50.0,
-          "discount": null,
-          "threshold": null,
-          "currency": "USD",
-          "condition": "AAA members",
-          "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
-          "valid_until": null,
-          "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
-        },
-        {
-          "title": "Wyndham: rtainment × Members Always Get the Lowest Price × Bring on the Fireworks! × Get $5+ off per Ni",
-          "price": 5.0,
-          "discount": null,
-          "threshold": null,
-          "currency": "USD",
-          "condition": "AARP members; Per Night",
-          "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
-          "valid_until": null,
-          "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
-        },
-        {
-          "title": "Wyndham: ash Sale × Members Save 10–20% or More This Fall × All-Inclusive Resorts: Get a $100 On-Property",
-          "price": 100.0,
-          "discount": null,
-          "threshold": null,
-          "currency": "USD",
-          "condition": "AAA members",
-          "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
-          "valid_until": null,
-          "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
+          "offer": "2,000 Bonus Points (dining review, $50 min spend)",
+          "condition": "requires a $50 minimum spend",
+          "official": "Bonus points offer ends Nov. 2, 2026 and requires a $50 minimum spend.",
+          "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
+          "verify": "verified",
+          "review_date": "2026-10-12"
         }
       ],
       "status": "ok"
@@ -207,73 +147,16 @@
       "slug": "norwegian-cruise-line",
       "site": "https://www.ncl.com",
       "deals": "https://www.ncl.com/cruise-deals",
+      "affiliate": "",
       "outbound": "https://www.ncl.com/cruise-deals",
       "offers": [
         {
-          "title": "Norwegian Cruise Line: you’ll find our latest promotions and details on NCL’s Free At Sea™ Upgrade for $59pp/day and r",
-          "price": 59.0,
-          "discount": null,
-          "threshold": null,
-          "currency": "USD",
-          "condition": null,
-          "offer_url": "https://www.ncl.com/cruise-deals",
-          "valid_until": null,
-          "source_url": "https://www.ncl.com/cruise-deals"
-        },
-        {
-          "title": "Norwegian Cruise Line: you’ll find our latest promotions and details on NCL’s Free At Sea™ Upgrade for $69pp/day and r",
-          "price": 69.0,
-          "discount": null,
-          "threshold": null,
-          "currency": "USD",
-          "condition": null,
-          "offer_url": "https://www.ncl.com/cruise-deals",
-          "valid_until": null,
-          "source_url": "https://www.ncl.com/cruise-deals"
-        },
-        {
-          "title": "Norwegian Cruise Line: pply! Be sure to check out our exclusive cruise offer for solo travellers. FREE $150 WITH CRUISE",
-          "price": 150.0,
-          "discount": null,
-          "threshold": null,
-          "currency": "USD",
-          "condition": "With CRUISEFIRST",
-          "offer_url": "https://www.ncl.com/cruise-deals",
-          "valid_until": null,
-          "source_url": "https://www.ncl.com/cruise-deals"
-        },
-        {
-          "title": "Norwegian Cruise Line: clusive cruise offer for solo travellers. FREE $150 WITH CRUISEFIRST Save up to $150 by purchasi",
-          "price": 150.0,
-          "discount": null,
-          "threshold": null,
-          "currency": "USD",
-          "condition": "With CRUISEFIRST",
-          "offer_url": "https://www.ncl.com/cruise-deals",
-          "valid_until": null,
-          "source_url": "https://www.ncl.com/cruise-deals"
-        },
-        {
-          "title": "Norwegian Cruise Line: y (90) days from the original purchase date. For a Limited time only save up to $150 by purchasi",
-          "price": 150.0,
-          "discount": null,
-          "threshold": null,
-          "currency": "USD",
-          "condition": "Per person; With CRUISEFIRST",
-          "offer_url": "https://www.ncl.com/cruise-deals",
-          "valid_until": null,
-          "source_url": "https://www.ncl.com/cruise-deals"
-        },
-        {
-          "title": "Norwegian Cruise Line: Deals Transatlantic Deals Weekend Deals --> 2023 FEATURED CRUISES --> Get Up To $100 Free Onboar",
-          "price": 100.0,
-          "discount": null,
-          "threshold": null,
-          "currency": "USD",
-          "condition": null,
-          "offer_url": "https://www.ncl.com/cruise-deals",
-          "valid_until": null,
-          "source_url": "https://www.ncl.com/cruise-deals"
+          "offer": "CruiseFirst: up to $150 credit",
+          "condition": "on your 3+ nights cruise",
+          "official": "Save up to $150 by purchasing a CruiseFirst credit on your 3+ nights cruise provided the voyage date is more than ninety (90) days from the original purchase date.",
+          "source": "https://www.ncl.com/cruise-deals",
+          "verify": "verified",
+          "review_date": "2026-10-12"
         }
       ],
       "status": "ok"
@@ -283,6 +166,7 @@
       "slug": "singapore-airlines",
       "site": "https://www.singaporeair.com",
       "deals": "https://www.singaporeair.com/en_UK/sg/plan-travel/promotions/",
+      "affiliate": "",
       "outbound": "https://www.singaporeair.com/en_UK/sg/plan-travel/promotions/",
       "offers": [],
       "status": "http_404"
@@ -292,18 +176,16 @@
       "slug": "trip-com",
       "site": "https://www.trip.com",
       "deals": "https://www.trip.com/sale/deals/",
+      "affiliate": "",
       "outbound": "https://www.trip.com/sale/deals/",
       "offers": [
         {
-          "title": "Trip.com: Deals Up to 20% off on New Hote",
-          "price": null,
-          "discount": "20% off",
-          "threshold": null,
-          "currency": null,
-          "condition": "On new hotels; Online",
-          "offer_url": "https://www.trip.com/sale/deals/",
-          "valid_until": null,
-          "source_url": "https://www.trip.com/sale/deals/"
+          "offer": "Up to 20% off new hotels",
+          "condition": "on New Hotels",
+          "official": "Up to 20% off on New Hotels",
+          "source": "https://www.trip.com/sale/deals/",
+          "verify": "verified",
+          "review_date": "2026-10-12"
         }
       ],
       "status": "ok"

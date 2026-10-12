@@ -27,7 +27,7 @@ Trip.com | https://www.trip.com | https://www.trip.com/sale/deals/ |
 ::END
 
 ::MODULE{FIELDS|title:每条优惠提取什么}
-title | price | currency | offer_url | valid_until | source_url | fetched_at
+offer | condition | official | source | review_date | verify | fetched_at
 ::END
 
 ::MODULE{SCRAPER|title:抓取规则 代码真的读这里}

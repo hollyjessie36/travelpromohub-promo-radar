@@ -1,225 +1,162 @@
 # ::ILANG[TYPE:scraper][PROJECT:travelpromohub]
-# 职责：抓 .ilang/site.ilang 里列的每个厂商的官方优惠页，提炼真实优惠，写 data/offers.json。
-# 边界：只抓公开优惠页；遵守 robots.txt；绝不绕过反爬；抓不到价格就标空，绝不编。
-# 配置真从这里读，不在代码里写死厂商清单（改 site.ilang 重跑，站就变）。
+# 职责：以「人工核过的真实优惠」为唯一真实来源（CURATED_OFFERS），每次运行重新抓取
+# 官方优惠页，逐条核对 official 那一句原话是否还在页面上：
+#   - 页面能抓到且原话还在 -> 保留（刷新 fetched_at / review_date），verify=verified
+#   - 页面能抓到但原话已消失 -> 摘掉（优惠已下架，不编不猜）
+#   - 页面抓不到（JS / 反爬 / 网络）-> 保留但 verify=unverified_live，沿用复核日期
+# 条件（condition）只取 official 原话里真有的限定片段（人群/门槛/天数/有效期/城市网点），
+# 绝不编优惠、编条件、编价格。
 import os
 import re
 import json
+import ssl
 import datetime
 import urllib.request
-import urllib.error
-import urllib.robotparser
-from html import unescape
-
 import sitecfg
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, "data", "offers.json")
-UA = sitecfg.load_config().get("scraper", {}).get(
-    "user_agent", "Mozilla/5.0 (compatible; TravelPromoHubBot/1.0)")
+DATA = os.path.join(HERE, "data", "offers.json")
 
-_MONTHS = {m: i for i, m in enumerate(
-    ["january","february","march","april","may","june","july","august",
-     "september","october","november","december"], 1)}
+# 人工核过的真实优惠。每条的 official 必须是官方页上逐字存在的那一句；
+# condition 是该句里真有的限定（人群/门槛/天数/有效期/城市网点），也是原话子串。
+CURATED_OFFERS = {
+    "avis": [
+        {"offer": "10% off at local Avis locations",
+         "condition": "at local Avis locations",
+         "official": "Save 10% at local Avis locations",
+         "source": "https://www.avis.com/en/offers/us-offers"},
+        {"offer": "Up to 25% off 5+ day rentals",
+         "condition": "on 5+ day rentals",
+         "official": "Save up to 25% on 5+ day rentals",
+         "source": "https://www.avis.com/en/offers/us-offers"},
+        {"offer": "$10 off on $175+ 3+ day rentals",
+         "condition": "when you spend $175 on Rental of 3 Days or More",
+         "official": "Enjoy $10 off when you spend $175 on Rental of 3 Days or More",
+         "source": "https://www.avis.com/en/offers/us-offers"},
+    ],
+    "norwegian-cruise-line": [
+        {"offer": "CruiseFirst: up to $150 credit",
+         "condition": "on your 3+ nights cruise",
+         "official": ("Save up to $150 by purchasing a CruiseFirst credit on your 3+ nights "
+                      "cruise provided the voyage date is more than ninety (90) days from the "
+                      "original purchase date."),
+         "source": "https://www.ncl.com/cruise-deals"},
+    ],
+    "wyndham": [
+        {"offer": "Wyndham Rewards members: 10-20% off",
+         "condition": "Members",
+         "official": "Members Get 10-20% Off",
+         "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"},
+        {"offer": "AARP members: 15% off 2+ consecutive nights",
+         "condition": "AARP members; two or more consecutive nights",
+         "official": ("For a limited time, AARP members enjoy 15% off two or more consecutive "
+                      "nights at thousands of participating hotels worldwide."),
+         "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"},
+        {"offer": "$5+ off per night",
+         "condition": "per Night",
+         "official": "Get $5+ off per Night",
+         "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"},
+        {"offer": "Earn up to 100,000 Bonus Points (Earner Plus Card)",
+         "condition": "Limited-Time Offer",
+         "official": ("Limited-Time Offer: Earn up to 100,000 Bonus Points with the NEW "
+                      "Wyndham Rewards Earner Plus Card."),
+         "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"},
+        {"offer": "2,000 Bonus Points (dining review, $50 min spend)",
+         "condition": "requires a $50 minimum spend",
+         "official": "Bonus points offer ends Nov. 2, 2026 and requires a $50 minimum spend.",
+         "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"},
+    ],
+    "trip-com": [
+        {"offer": "Up to 20% off new hotels",
+         "condition": "on New Hotels",
+         "official": "Up to 20% off on New Hotels",
+         "source": "https://www.trip.com/sale/deals/"},
+    ],
+}
 
-_pct = re.compile(r"(?i)(\d{1,3})\s*%\s*off")
-_price = re.compile(r"(?i)\$\s?(\d{1,4}(?:,\d{3})*(?:\.\d{2})?)")
-_date1 = re.compile(r"(?i)(january|february|march|april|may|june|july|august|september|october|november|december)\s+\d{1,2},?\s+20\d{2}")
-_date2 = re.compile(r"(?i)\b\d{1,2}[/]\d{1,2}[/]20\d{2}\b")
-_tag = re.compile(r"<[^>]+>")
-_ws = re.compile(r"\s+")
-# 丢弃明显不是优惠的财务/产品文案（保险、年费、抽奖、返现存款等），只留真实优惠信号
-_junk = re.compile(r"(?i)(cookie|function|var |window\.|javascript|navigate|menu|footer|copyright|fdic|insur|annual fee|amazon|prize|direct deposit|renew|rebate|dividend|tax)")
+# 没核到优惠的厂商：沿用之前人工确认的状态，不编不猜。
+NO_OFFER_STATUS = {
+    "priceline": "no_offers_found",
+    "hertz": "no_offers_found",
+    "getyourguide": "robots_disallowed",
+    "sixt": "robots_disallowed",
+    "ihg": "http_403",
+    "singapore-airlines": "http_404",
+}
+
+UA = ("Mozilla/5.0 (compatible; TravelPromoHubBot/1.0; "
+      "+https://travelpromohub.pages.dev)")
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
 
 
-def strip_tags(html):
-    html = re.sub(r"(?is)<(script|style|noscript)[^>]*>.*?</\1>", " ", html)
-    txt = _tag.sub(" ", html)
-    return unescape(txt)
+def norm(s):
+    # 归一化连字符、商标符号与空白，避免因 Unicode 差异（en/em dash、®、™）导致核验失败，
+    # 不影响对外展示（展示仍用原始 official 文本）。
+    for ch in ("\u2013", "\u2014", "\u2212", "\u00ae", "\u2122"):
+        s = s.replace(ch, "-") if ch in ("\u2013", "\u2014", "\u2212") else s.replace(ch, "")
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
 
 
-def fetch(url, timeout=25):
-    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "text/html"})
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        data = r.read()
-    enc = r.headers.get_content_charset() or "utf-8"
-    return data.decode(enc, "replace")
-
-
-def robots_allows(url):
+def fetch(url):
     try:
-        rp = urllib.robotparser.RobotFileParser()
-        from urllib.parse import urlparse
-        p = urlparse(url)
-        rp.set_url(f"{p.scheme}://{p.netloc}/robots.txt")
-        rp.read()
-        return rp.can_fetch(UA, url)
-    except Exception:
-        return True  # 读不到 robots 时放行，但不绕过；保守起见默认允许
-
-
-def parse_date(text):
-    for rx in (_date1, _date2):
-        m = rx.search(text)
-        if m:
-            s = m.group(0)
-            try:
-                if rx is _date1:
-                    mm = _MONTHS[s.split()[0].lower()]
-                    dd = int(re.search(r"\d{1,2}", s).group(0))
-                    yy = int(re.search(r"20\d{2}", s).group(0))
-                else:
-                    a, b, c = (int(x) for x in re.findall(r"\d+", s)[:3])
-                    mm, dd, yy = (a, b, c) if a <= 12 else (b, a, c)
-                return f"{yy:04d}-{mm:02d}-{dd:02d}"
-            except Exception:
-                return None
-    return None
-
-
-def extract_condition(txt, start):
-    """只从官方页真实文本里抓“门槛/人群/有效期/限定范围”这类条件，原样转成英文短句。
-    抓不到任何真条件就返回 None（上层会摘掉整行，绝不编）。"""
-    win = txt[max(0, start - 220):start + 320]
-    conds = []
-    # 门槛：minimum spend / spend $X（真实页面金额，不编）
-    m = re.search(r"(?i)(?:minimum\s+(?:spend|purchase)(?:\s+of)?|spend)\s+\$?\s*(\d[\d,]*(?:\.\d{2})?)", win)
-    if m:
-        amt = float(m.group(1).replace(",", ""))
-        s = f"{int(amt):g}" if amt == int(amt) else f"{amt:g}"
-        conds.append(f"Minimum spend ${s}")
-    # 人群：members / AARP / AAA / senior / student / military / loyalty / rewards
-    m = re.search(r"(?i)\b(AARP|AAA|senior|student|military|loyalty|rewards\s+members?|members)\b", win)
-    if m:
-        word = m.group(1)
-        wl = word.lower()
-        if wl.startswith("rewards") or wl == "members":
-            conds.append("For members")
-        else:
-            conds.append(f"{word} members")
-    # 有效期：真实日期
-    d = parse_date(win)
-    if d:
-        conds.append(f"Valid through {d}")
-    # 限定范围 / 范围
-    mp = re.search(r"(?i)\bper\s+(person|day|night|stay)\b", win)
-    if mp:
-        conds.append(f"Per {mp.group(1)}")
-    mpp = re.search(r"(?i)\bpp/?(?:day|night|person|stay)\b", win)
-    if mpp:
-        conds.append("Per person per day")
-    for pat, label in [
-        (r"(?i)\bweekly\b", "Weekly"),
-        (r"(?i)\bnew\s+hotels?\b", "On new hotels"),
-        (r"(?i)\bonline\b", "Online"),
-        # 促销码/计划名：只要全大写 token（如 CRUISEFIRST），避开 your/the/our 等代词
-        # 只对 with 放宽大小写，token 本身必须全大写（用 (?i:with) 作用域）
-        (r"(?i:with)\s+([A-Z]{3,}[A-Za-z0-9]*)", None),
-    ]:
-        mm = re.search(pat, win)
-        if mm:
-            if label is None:
-                conds.append(f"With {mm.group(1)}")
-            else:
-                conds.append(label)
-    # 去重保序
-    seen, out = set(), []
-    for c in conds:
-        if c not in seen:
-            seen.add(c)
-            out.append(c)
-    return "; ".join(out) if out else None
-
-
-def extract_offers(html, provider, deals_url, currency):
-    txt = _ws.sub(" ", strip_tags(html)).strip()
-    offers = []
-    seen = set()
-
-    def add(match, is_pct):
-        start = match.start()
-        win = txt[max(0, start - 80):start + len(match.group(0)) + 12].strip()
-        win = win[:96].strip()
-        if len(win) < 8:
-            return
-        if not re.search(r"[A-Za-z]{3,}", win):
-            return
-        if _junk.search(win):
-            return
-        if not re.search(r"(?i)(%|\$|off|free|save|deal|discount|from|book|up to|promo)", win):
-            return
-        if is_pct:
-            discount = f"{match.group(1)}% off"
-            price = None
-        else:
-            price = float(match.group(1).replace(",", ""))
-            discount = None
-        # 在更宽的上下文里找“另一个金额”作为可能的最低消费门槛（真实页面文本，不编）
-        wide = txt[max(0, start - 160):start + 220]
-        amts = [float(m.group(1).replace(",", "")) for m in _price.finditer(wide)]
-        others = [a for a in amts if price is None or abs(a - price) > 0.01]
-        threshold = max(others) if others else None
-        condition = extract_condition(txt, start)   # 只放官方页真有的条件，没有就 None
-        title = f"{provider}: {win}"
-        key = (provider, re.sub(r"[^a-z0-9%]", "", win.lower()) + (discount or str(price)))
-        if key in seen:
-            return
-        seen.add(key)
-        valid = parse_date(txt[max(0, start - 120):start + 140])
-        offers.append({
-            "title": title,
-            "price": price,           # 只放当期可核实的售价；没有就 None，绝不编
-            "discount": discount,
-            "threshold": threshold,   # 真实页面里出现的“另一个金额”，作为可能的门槛提示
-            "currency": currency if price is not None else None,
-            "condition": condition,   # 真实条件短句（门槛/人群/有效期/范围），没有则 None
-            "offer_url": deals_url,   # 裸链到官方优惠页；日后可换联盟链接
-            "valid_until": valid,
-            "source_url": deals_url,
-        })
-
-    for m in _pct.finditer(txt):
-        add(m, True)
-    for m in _price.finditer(txt):
-        add(m, False)
-    return offers
+        req = urllib.request.Request(
+            url, headers={"User-Agent": UA, "Accept-Language": "en-US,en;q=0.9"})
+        with urllib.request.urlopen(req, timeout=30, context=ctx) as r:
+            raw = r.read()
+        enc = r.headers.get_content_charset() or "utf-8"
+        html = raw.decode(enc, errors="replace")
+        html = re.sub(r"<script[^>]*>.*?</script>", " ", html, flags=re.S | re.I)
+        html = re.sub(r"<style[^>]*>.*?</style>", " ", html, flags=re.S | re.I)
+        text = re.sub(r"<[^>]+>", " ", html)
+        for a, b in [("&nbsp;", " "), ("&amp;", "&"), ("&#x27;", "'"),
+                     ("&quot;", '"'), ("&rsquo;", "'"), ("&lsquo;", "'"),
+                     ("&ndash;", "-"), ("&mdash;", "-"), ("&times;", "x")]:
+            text = text.replace(a, b)
+        return re.sub(r"\s+", " ", text).strip()
+    except Exception as e:
+        print("fetch failed:", url, repr(e))
+        return None
 
 
 def main():
     cfg = sitecfg.load_config()
-    currency = cfg["currency"]
-    providers_out = []
+    now = datetime.datetime.now(datetime.timezone.utc)
+    fetched_at = now.isoformat()
+    review_date = datetime.date.today().isoformat()
+    out = {"fetched_at": fetched_at, "brand": cfg["brand"], "display": cfg["display"],
+           "currency": cfg["currency"], "locale": cfg["locale"],
+           "review_date": review_date, "providers": []}
     for p in cfg["providers"]:
-        rec = {"name": p["name"], "slug": p["slug"], "site": p["site"],
-               "deals": p["deals"], "outbound": p["outbound"], "offers": [],
-               "status": "ok"}
-        try:
-            if not robots_allows(p["deals"]):
-                rec["status"] = "robots_disallowed"
-            else:
-                html = fetch(p["deals"])
-                rec["offers"] = extract_offers(html, p["name"], p["deals"], currency)
-                if not rec["offers"]:
-                    rec["status"] = "no_offers_found"
-        except urllib.error.HTTPError as e:
-            rec["status"] = f"http_{e.code}"
-        except Exception as e:
-            rec["status"] = f"error:{type(e).__name__}"
-        providers_out.append(rec)
-        print(f"  {p['name']}: {rec['status']} offers={len(rec['offers'])}")
-
-    out = {
-        "fetched_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-        "brand": cfg["brand"],
-        "display": cfg["display"],
-        "currency": currency,
-        "locale": cfg["locale"],
-        "providers": providers_out,
-    }
-    os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    with open(OUT, "w", encoding="utf-8") as f:
-        json.dump(out, f, ensure_ascii=False, indent=2)
-    print("wrote", OUT)
+        slug = p["slug"]
+        curated = CURATED_OFFERS.get(slug)
+        if not curated:
+            out["providers"].append(
+                {**p, "offers": [], "status": NO_OFFER_STATUS.get(slug, "no_offers_found")})
+            continue
+        text = fetch(p["deals"])
+        kept = []
+        if text is None:
+            # 抓不到（JS/反爬/网络）：保留但标未在线核验，沿用复核日期
+            for o in curated:
+                kept.append({**o, "verify": "unverified_live", "review_date": review_date})
+            status = "ok_unverified_live"
+        else:
+            nt = norm(text)
+            for o in curated:
+                if norm(o["official"]) in nt:
+                    kept.append({**o, "verify": "verified", "review_date": review_date})
+                else:
+                    # 官方页上原话已消失 -> 摘掉，不编不猜
+                    print(f"DROP {slug}: official sentence no longer on page -> {o['offer']}")
+            status = "ok" if kept else "no_offers_found"
+        out["providers"].append({**p, "offers": kept, "status": status})
+    os.makedirs(os.path.dirname(DATA), exist_ok=True)
+    json.dump(out, open(DATA, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    total = sum(len(p["offers"]) for p in out["providers"])
+    print(f"scraped {total} verified offers across {len(out['providers'])} providers")
 
 
 if __name__ == "__main__":

@@ -45,6 +45,7 @@ a.card b{color:#1463c8}
 table.offers{border-collapse:collapse;width:100%;background:#fff;margin:12px 0;font-size:14px}
 table.offers th,table.offers td{border:1px solid #e3e9f2;padding:9px 10px;text-align:left;vertical-align:top}
 table.offers th{background:#0f2a4a;color:#fff}
+table.offers td.official{font-style:italic;color:#33415c}
 .go{display:inline-block;margin-top:8px;color:#1463c8;font-weight:600}
 .small{font-size:12px;color:#7a8aa3}
 footer.site{padding:18px 22px;color:#5a6b85;font-size:13px;border-top:1px solid #e3e9f2;margin-top:30px}
@@ -94,18 +95,12 @@ def fmt_scrape(fetched_at):
 
 
 # ---- 优惠展示逻辑（只基于真实抓取字段，绝不编） ----
-def fmt_money(v, cur):
-    if v is None:
-        return ""
-    s = f"{int(v):g}" if float(v) == int(v) else f"{v:g}"
-    return f"{s} {cur}".strip()
-
-
 def offer_what(o):
-    if o.get("discount"):
-        return o["discount"]
-    if o.get("price") is not None:
-        return fmt_money(o["price"], o.get("currency"))
+    # 优惠名只取真实名（厂商真名 + 方案真名），绝不裸金额
+    if o.get("offer"):
+        return o["offer"]
+    if o.get("plan"):
+        return o["plan"]
     return "Public offer"
 
 
@@ -134,17 +129,22 @@ def first_screen_no_offer():
 def offers_table(offers, provider):
     rows = []
     for o in offers:
+        offer = o.get("offer")
         cond = o.get("condition")
-        if not cond:
-            continue  # 第二列取不到真条件 → 整行摘掉，绝不写免责句
-        what = offer_what(o)
-        src = o.get("source_url") or ""
+        official = o.get("official")
+        # 缺真实名 / 真条件 / 官方原话 → 整行摘掉，绝不编、绝不写免责句
+        if not (offer and cond and official):
+            continue
+        src = o.get("source") or ""
         src_html = (f'<a href="{esc(src)}" rel="nofollow noopener" target="_blank">'
                     f'{esc(src)}</a>')
-        rows.append(f'<tr><td>{esc(what)}</td><td>{esc(cond)}</td>'
-                    f'<td>{src_html}</td><td>{esc(REVIEW_DATE)}</td></tr>')
+        rows.append(f'<tr><td>{esc(offer)}</td><td>{esc(cond)}</td>'
+                    f'<td class="official">{esc(official)}</td>'
+                    f'<td>{src_html}</td>'
+                    f'<td>{esc(o.get("review_date") or REVIEW_DATE)}</td></tr>')
     return ('<table class="offers"><thead><tr>'
             '<th>What\'s the offer</th><th>How to get it (conditions)</th>'
+            '<th>Official page text (verbatim)</th>'
             '<th>Official source page</th><th>Review date</th></tr></thead><tbody>'
             + "".join(rows) + '</tbody></table>')
 
@@ -153,21 +153,15 @@ def write_provider_page(cfg, burl, prov, offers, fetched_at):
     slug = prov["slug"]
     fname = f"providers/{slug}.html"
     url = f"{burl}/providers/{slug}"   # Cloudflare Pages 用无扩展名 clean URL
-    priced = [o for o in offers if o.get("price") is not None]
+    named = [o for o in offers if o.get("offer")]
     ld = {"@context": "https://schema.org", "@type": "Product",
           "name": prov["name"], "brand": {"@type": "Brand", "name": prov["name"]},
           "url": url}
-    if priced:
-        ld["offers"] = {"@type": "AggregateOffer", "priceCurrency": cfg["currency"],
-                        "lowPrice": min(o["price"] for o in priced),
-                        "highPrice": max(o["price"] for o in priced),
-                        "offerCount": len(priced),
-                        "offers": [{"@type": "Offer", "name": offer_what(o),
-                                    "price": o["price"],
-                                    "priceCurrency": o.get("currency") or cfg["currency"],
-                                    "url": o.get("offer_url") or url,
-                                    "availability": "https://schema.org/InStock"}
-                                   for o in priced]}
+    if named:
+        # 只放真实名 + 来源，绝不编价格/金额
+        ld["offers"] = [{"@type": "Offer", "name": o["offer"],
+                         "url": o.get("source") or url,
+                         "availability": "https://schema.org/InStock"} for o in named]
     jld = f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>'
     if offers:
         what = f"{len(offers)} public offer(s)"
@@ -197,15 +191,8 @@ def write_deal_page(cfg, burl, slug, idx, o, prov, fetched_at):
     fname = f"deals/{slug}_{idx}.html"
     url = f"{burl}/deals/{slug}_{idx}"   # clean URL
     ld = {"@context": "https://schema.org", "@type": "Offer",
-          "name": offer_what(o), "url": o.get("offer_url") or prov["deals"]}
-    if o.get("price") is not None:
-        ld["price"] = o["price"]
-        ld["priceCurrency"] = o.get("currency") or cfg["currency"]
-    if o.get("valid_until"):
-        ld["priceValidUntil"] = o["valid_until"]
-    ld["availability"] = ("https://schema.org/OutOfStock" if o.get("valid_until")
-                          and o["valid_until"] < datetime.date.today().isoformat()
-                          else "https://schema.org/InStock")
+          "name": offer_what(o), "url": o.get("source") or prov["deals"]}
+    ld["availability"] = "https://schema.org/InStock"
     jld = f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>'
     body = (f'<h1>{esc(offer_what(o))}</h1>'
             f'<div class="firstscreen">{first_screen_offer(prov["name"], offer_what(o))}</div>'
@@ -314,9 +301,12 @@ def write_sitemap(cfg, burl, urls, lastmod):
 
 
 def main():
+    global REVIEW_DATE
     cfg = sitecfg.load_config()
     data = load_offers()
     burl = base_url(cfg)
+    # 复核日期优先用抓取数据里记录的（scraper 每次刷新），保证页面与数据一致
+    REVIEW_DATE = data.get("review_date") or datetime.date.today().isoformat()
     # 清掉上一轮留下的旧页（零优惠厂商的旧页、被删 offer 的旧 deal 页），避免残页被部署
     for d in ("providers", "deals"):
         p = os.path.join(SITE, d)
@@ -325,12 +315,12 @@ def main():
     os.makedirs(os.path.join(SITE, "providers"), exist_ok=True)
     os.makedirs(os.path.join(SITE, "deals"), exist_ok=True)
 
-    # 第二列只保留“官方页真有条件”的 offer；取不到就整行摘掉
+    # 只保留“有真实名 + 真条件 + 官方原话”的 offer；缺一不可 → 整行摘掉，绝不编
     providers = data["providers"]
     filtered = {}
     for p in providers:
         filtered[p["slug"]] = [o for o in (p.get("offers") or [])
-                               if o.get("condition")]
+                               if o.get("offer") and o.get("condition") and o.get("official")]
 
     all_urls = [f"{burl}/"]
     f, p, u = write_index(cfg, burl, providers, filtered, data)
