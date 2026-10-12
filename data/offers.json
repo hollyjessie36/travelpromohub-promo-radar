@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-12T11:01:20.261007+00:00",
+  "fetched_at": "2026-10-12T11:50:27.235557+00:00",
   "brand": "travelpromohub",
   "display": "TravelPromoHub",
   "currency": "USD",
@@ -198,27 +198,27 @@
       "outbound": "https://www.ncl.com/cruise-deals",
       "offers": [
         {
-          "title": "Norwegian Cruise Line: you’ll find our latest promotions and details on NCL’s Free At Sea™ Upgrade for $59pp/day and r",
-          "price": 59.0,
-          "discount": null,
+          "title": "Norwegian Cruise Line: lty Dining, and much more! View Cruises Experience an unforgettable cruise with 50% Off All Crui",
+          "price": null,
+          "discount": "50% off",
           "threshold": null,
-          "currency": "USD",
+          "currency": null,
           "offer_url": "https://www.ncl.com/cruise-deals",
           "valid_until": null,
           "source_url": "https://www.ncl.com/cruise-deals"
         },
         {
-          "title": "Norwegian Cruise Line: you’ll find our latest promotions and details on NCL’s Free At Sea™ Upgrade for $69pp/day and r",
-          "price": 69.0,
-          "discount": null,
+          "title": "Norwegian Cruise Line: ds/card/v1/card\"}}\"> 50% Of All Cruises Experience an unforgettable cruise with 50% Off All Crui",
+          "price": null,
+          "discount": "50% off",
           "threshold": null,
-          "currency": "USD",
+          "currency": null,
           "offer_url": "https://www.ncl.com/cruise-deals",
           "valid_until": null,
           "source_url": "https://www.ncl.com/cruise-deals"
         },
         {
-          "title": "Norwegian Cruise Line: pply! Be sure to check out our exclusive cruise offer for solo travellers. FREE $150 WITH CRUISE",
+          "title": "Norwegian Cruise Line: e certificates to be used payment toward new reservations.</p>\\r\\n\",\"dc:title\":\"$150 Free with C",
           "price": 150.0,
           "discount": null,
           "threshold": null,
@@ -228,7 +228,7 @@
           "source_url": "https://www.ncl.com/cruise-deals"
         },
         {
-          "title": "Norwegian Cruise Line: clusive cruise offer for solo travellers. FREE $150 WITH CRUISEFIRST Save up to $150 by purchasi",
+          "title": "Norwegian Cruise Line: fyDate\":\"2026-10-02T14:11:15Z\",\"@type\":\"nclh/components/cards/card/v1/card\"}}\"> $150 Free with C",
           "price": 150.0,
           "discount": null,
           "threshold": null,
@@ -238,18 +238,8 @@
           "source_url": "https://www.ncl.com/cruise-deals"
         },
         {
-          "title": "Norwegian Cruise Line: y (90) days from the original purchase date. For a Limited time only save up to $150 by purchasi",
-          "price": 150.0,
-          "discount": null,
-          "threshold": null,
-          "currency": "USD",
-          "offer_url": "https://www.ncl.com/cruise-deals",
-          "valid_until": null,
-          "source_url": "https://www.ncl.com/cruise-deals"
-        },
-        {
-          "title": "Norwegian Cruise Line: Deals Transatlantic Deals Weekend Deals --> 2023 FEATURED CRUISES --> Get Up To $100 Free Onboar",
-          "price": 100.0,
+          "title": "Norwegian Cruise Line: 62e80\" class=\"cmp-text\"> $ USD LIMITED-TIME ONLINE OFFER! 30,000 BONUS POINTS = $300 ONBOARD CRE",
+          "price": 300.0,
           "discount": null,
           "threshold": null,
           "currency": "USD",
@@ -277,7 +267,7 @@
       "outbound": "https://www.trip.com/sale/deals/",
       "offers": [
         {
-          "title": "Trip.com: Deals Up to 20% off on New Hote",
+          "title": "Trip.com: Deals Go Japan Up to 20% off on New Hote",
           "price": null,
           "discount": "20% off",
           "threshold": null,
