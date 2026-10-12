@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-12T12:24:18.946823+00:00",
+  "fetched_at": "2026-10-12T13:19:59.624940+00:00",
   "brand": "travelpromohub",
   "display": "TravelPromoHub",
   "currency": "USD",
@@ -36,6 +36,7 @@
           "discount": "10% off",
           "threshold": null,
           "currency": null,
+          "condition": "Weekly",
           "offer_url": "https://www.avis.com/en/offers/us-offers",
           "valid_until": null,
           "source_url": "https://www.avis.com/en/offers/us-offers"
@@ -46,6 +47,7 @@
           "discount": "25% off",
           "threshold": 175.0,
           "currency": null,
+          "condition": "Minimum spend $175; Weekly",
           "offer_url": "https://www.avis.com/en/offers/us-offers",
           "valid_until": null,
           "source_url": "https://www.avis.com/en/offers/us-offers"
@@ -56,6 +58,7 @@
           "discount": null,
           "threshold": 175.0,
           "currency": "USD",
+          "condition": "Minimum spend $175; Weekly",
           "offer_url": "https://www.avis.com/en/offers/us-offers",
           "valid_until": null,
           "source_url": "https://www.avis.com/en/offers/us-offers"
@@ -66,6 +69,7 @@
           "discount": null,
           "threshold": 10.0,
           "currency": "USD",
+          "condition": "Minimum spend $175; Weekly",
           "offer_url": "https://www.avis.com/en/offers/us-offers",
           "valid_until": null,
           "source_url": "https://www.avis.com/en/offers/us-offers"
@@ -113,6 +117,7 @@
           "discount": "20% off",
           "threshold": null,
           "currency": null,
+          "condition": "For members",
           "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
           "valid_until": null,
           "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
@@ -123,6 +128,7 @@
           "discount": "15% off",
           "threshold": 50.0,
           "currency": null,
+          "condition": "AAA members; Valid through 2026-12-31",
           "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
           "valid_until": null,
           "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
@@ -133,6 +139,7 @@
           "discount": "15% off",
           "threshold": null,
           "currency": null,
+          "condition": "AAA members; Valid through 2026-12-31",
           "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
           "valid_until": null,
           "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
@@ -143,6 +150,7 @@
           "discount": "15% off",
           "threshold": 5.0,
           "currency": null,
+          "condition": "For members; Per Night",
           "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
           "valid_until": null,
           "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
@@ -153,6 +161,7 @@
           "discount": null,
           "threshold": null,
           "currency": "USD",
+          "condition": "Valid through 2026-10-21",
           "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
           "valid_until": null,
           "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
@@ -163,6 +172,7 @@
           "discount": null,
           "threshold": null,
           "currency": "USD",
+          "condition": "AAA members",
           "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
           "valid_until": null,
           "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
@@ -173,6 +183,7 @@
           "discount": null,
           "threshold": null,
           "currency": "USD",
+          "condition": "AARP members; Per Night",
           "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
           "valid_until": null,
           "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
@@ -183,6 +194,7 @@
           "discount": null,
           "threshold": null,
           "currency": "USD",
+          "condition": "AAA members",
           "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
           "valid_until": null,
           "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
@@ -198,51 +210,67 @@
       "outbound": "https://www.ncl.com/cruise-deals",
       "offers": [
         {
-          "title": "Norwegian Cruise Line: lty Dining, and much more! View Cruises Experience an unforgettable cruise with 50% Off All Crui",
-          "price": null,
-          "discount": "50% off",
+          "title": "Norwegian Cruise Line: you’ll find our latest promotions and details on NCL’s Free At Sea™ Upgrade for $59pp/day and r",
+          "price": 59.0,
+          "discount": null,
           "threshold": null,
-          "currency": null,
+          "currency": "USD",
+          "condition": null,
           "offer_url": "https://www.ncl.com/cruise-deals",
           "valid_until": null,
           "source_url": "https://www.ncl.com/cruise-deals"
         },
         {
-          "title": "Norwegian Cruise Line: ds/card/v1/card\"}}\"> 50% Of All Cruises Experience an unforgettable cruise with 50% Off All Crui",
-          "price": null,
-          "discount": "50% off",
+          "title": "Norwegian Cruise Line: you’ll find our latest promotions and details on NCL’s Free At Sea™ Upgrade for $69pp/day and r",
+          "price": 69.0,
+          "discount": null,
           "threshold": null,
-          "currency": null,
+          "currency": "USD",
+          "condition": null,
           "offer_url": "https://www.ncl.com/cruise-deals",
           "valid_until": null,
           "source_url": "https://www.ncl.com/cruise-deals"
         },
         {
-          "title": "Norwegian Cruise Line: e certificates to be used payment toward new reservations.</p>\\r\\n\",\"dc:title\":\"$150 Free with C",
+          "title": "Norwegian Cruise Line: pply! Be sure to check out our exclusive cruise offer for solo travellers. FREE $150 WITH CRUISE",
           "price": 150.0,
           "discount": null,
           "threshold": null,
           "currency": "USD",
+          "condition": "With CRUISEFIRST",
           "offer_url": "https://www.ncl.com/cruise-deals",
           "valid_until": null,
           "source_url": "https://www.ncl.com/cruise-deals"
         },
         {
-          "title": "Norwegian Cruise Line: fyDate\":\"2026-10-02T14:11:15Z\",\"@type\":\"nclh/components/cards/card/v1/card\"}}\"> $150 Free with C",
+          "title": "Norwegian Cruise Line: clusive cruise offer for solo travellers. FREE $150 WITH CRUISEFIRST Save up to $150 by purchasi",
           "price": 150.0,
           "discount": null,
           "threshold": null,
           "currency": "USD",
+          "condition": "With CRUISEFIRST",
           "offer_url": "https://www.ncl.com/cruise-deals",
           "valid_until": null,
           "source_url": "https://www.ncl.com/cruise-deals"
         },
         {
-          "title": "Norwegian Cruise Line: 62e80\" class=\"cmp-text\"> $ USD LIMITED-TIME ONLINE OFFER! 30,000 BONUS POINTS = $300 ONBOARD CRE",
-          "price": 300.0,
+          "title": "Norwegian Cruise Line: y (90) days from the original purchase date. For a Limited time only save up to $150 by purchasi",
+          "price": 150.0,
           "discount": null,
           "threshold": null,
           "currency": "USD",
+          "condition": "Per person; With CRUISEFIRST",
+          "offer_url": "https://www.ncl.com/cruise-deals",
+          "valid_until": null,
+          "source_url": "https://www.ncl.com/cruise-deals"
+        },
+        {
+          "title": "Norwegian Cruise Line: Deals Transatlantic Deals Weekend Deals --> 2023 FEATURED CRUISES --> Get Up To $100 Free Onboar",
+          "price": 100.0,
+          "discount": null,
+          "threshold": null,
+          "currency": "USD",
+          "condition": null,
           "offer_url": "https://www.ncl.com/cruise-deals",
           "valid_until": null,
           "source_url": "https://www.ncl.com/cruise-deals"
@@ -272,6 +300,7 @@
           "discount": "20% off",
           "threshold": null,
           "currency": null,
+          "condition": "On new hotels; Online",
           "offer_url": "https://www.trip.com/sale/deals/",
           "valid_until": null,
           "source_url": "https://www.trip.com/sale/deals/"

@@ -77,6 +77,60 @@ def parse_date(text):
     return None
 
 
+def extract_condition(txt, start):
+    """只从官方页真实文本里抓“门槛/人群/有效期/限定范围”这类条件，原样转成英文短句。
+    抓不到任何真条件就返回 None（上层会摘掉整行，绝不编）。"""
+    win = txt[max(0, start - 220):start + 320]
+    conds = []
+    # 门槛：minimum spend / spend $X（真实页面金额，不编）
+    m = re.search(r"(?i)(?:minimum\s+(?:spend|purchase)(?:\s+of)?|spend)\s+\$?\s*(\d[\d,]*(?:\.\d{2})?)", win)
+    if m:
+        amt = float(m.group(1).replace(",", ""))
+        s = f"{int(amt):g}" if amt == int(amt) else f"{amt:g}"
+        conds.append(f"Minimum spend ${s}")
+    # 人群：members / AARP / AAA / senior / student / military / loyalty / rewards
+    m = re.search(r"(?i)\b(AARP|AAA|senior|student|military|loyalty|rewards\s+members?|members)\b", win)
+    if m:
+        word = m.group(1)
+        wl = word.lower()
+        if wl.startswith("rewards") or wl == "members":
+            conds.append("For members")
+        else:
+            conds.append(f"{word} members")
+    # 有效期：真实日期
+    d = parse_date(win)
+    if d:
+        conds.append(f"Valid through {d}")
+    # 限定范围 / 范围
+    mp = re.search(r"(?i)\bper\s+(person|day|night|stay)\b", win)
+    if mp:
+        conds.append(f"Per {mp.group(1)}")
+    mpp = re.search(r"(?i)\bpp/?(?:day|night|person|stay)\b", win)
+    if mpp:
+        conds.append("Per person per day")
+    for pat, label in [
+        (r"(?i)\bweekly\b", "Weekly"),
+        (r"(?i)\bnew\s+hotels?\b", "On new hotels"),
+        (r"(?i)\bonline\b", "Online"),
+        # 促销码/计划名：只要全大写 token（如 CRUISEFIRST），避开 your/the/our 等代词
+        # 只对 with 放宽大小写，token 本身必须全大写（用 (?i:with) 作用域）
+        (r"(?i:with)\s+([A-Z]{3,}[A-Za-z0-9]*)", None),
+    ]:
+        mm = re.search(pat, win)
+        if mm:
+            if label is None:
+                conds.append(f"With {mm.group(1)}")
+            else:
+                conds.append(label)
+    # 去重保序
+    seen, out = set(), []
+    for c in conds:
+        if c not in seen:
+            seen.add(c)
+            out.append(c)
+    return "; ".join(out) if out else None
+
+
 def extract_offers(html, provider, deals_url, currency):
     txt = _ws.sub(" ", strip_tags(html)).strip()
     offers = []
@@ -105,6 +159,7 @@ def extract_offers(html, provider, deals_url, currency):
         amts = [float(m.group(1).replace(",", "")) for m in _price.finditer(wide)]
         others = [a for a in amts if price is None or abs(a - price) > 0.01]
         threshold = max(others) if others else None
+        condition = extract_condition(txt, start)   # 只放官方页真有的条件，没有就 None
         title = f"{provider}: {win}"
         key = (provider, re.sub(r"[^a-z0-9%]", "", win.lower()) + (discount or str(price)))
         if key in seen:
@@ -117,6 +172,7 @@ def extract_offers(html, provider, deals_url, currency):
             "discount": discount,
             "threshold": threshold,   # 真实页面里出现的“另一个金额”，作为可能的门槛提示
             "currency": currency if price is not None else None,
+            "condition": condition,   # 真实条件短句（门槛/人群/有效期/范围），没有则 None
             "offer_url": deals_url,   # 裸链到官方优惠页；日后可换联盟链接
             "valid_until": valid,
             "source_url": deals_url,
