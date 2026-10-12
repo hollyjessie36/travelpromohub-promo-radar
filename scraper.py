@@ -1,10 +1,10 @@
 # ::ILANG[TYPE:scraper][PROJECT:travelpromohub]
 # 职责：以「人工核过的真实优惠」为唯一真实来源（CURATED_OFFERS），每次运行重新抓取
-# 官方优惠页，逐条核对 official 那一句原话是否还在页面上：
-#   - 页面能抓到且原话还在 -> 保留（刷新 fetched_at / review_date），verify=verified
-#   - 页面能抓到但原话未确认 -> 保留并标 unverified_content，待人工复核（不自动摘，避免误删真实优惠）
-#   - 页面抓不到（JS / 反爬 / 网络）-> 保留但 verify=unverified_live，沿用复核日期
-# 说明：自动跑不摘优惠；优惠下架由人工核过后从 CURATED_OFFERS 移除，保证跨 IP/地区抓取差异下站不丢真实优惠。
+# 官方优惠页，逐条核对 official 那一句原话是否能在线核到：
+#   - 页面能抓到且原话还在 -> verify=verified，发布（进 site/sitemap/品牌页/对比页），写复核日期
+#   - 页面能抓到但原话核不到 / 抓不到（JS / 反爬 / 网络）-> verify=unverified，只留 data 作留痕
+#     （记 note 说明为什么核不到），绝不发布、不进 site/sitemap、页面上不写任何核验状态
+# 说明：线上只许出现核到原话的条；核不到的留在数据里并记下原因，那是留痕，不是发布。
 # 条件（condition）只取 official 原话里真有的限定片段（人群/门槛/天数/有效期/城市网点），
 # 绝不编优惠、编条件、编价格。
 import os
@@ -140,28 +140,35 @@ def main():
         text = fetch(p["deals"])
         kept = []
         if text is None:
-            # 抓不到（JS/反爬/网络）：保留但标未在线核验，沿用复核日期
+            # 抓不到（JS/反爬/网络）：核不到原话 -> 只留 data 作留痕，绝不发布
             for o in curated:
-                kept.append({**o, "verify": "unverified_live", "review_date": review_date})
-            status = "ok_unverified_live"
+                kept.append({**o, "verify": "unverified",
+                             "note": "not published: official page could not be fetched "
+                                     "(network / JS-rendered / anti-crawl)"})
+            status = "ok_unverified"
         else:
             nt = norm(text)
             for o in curated:
                 if norm(o["official"]) in nt:
+                    # 核到原话 -> 发布并写复核日期
                     kept.append({**o, "verify": "verified", "review_date": review_date})
                 else:
-                    # 自动跑时抓到的页面可能因 IP/地区/反爬差异而缺少原话；
-                    # 不在此自动摘掉（避免误删真实优惠），保留并标记待人工复核。
-                    print(f"WARN {slug}: official sentence NOT found on fetched page "
-                          f"-> keep as unverified_content: {o['offer']}")
-                    kept.append({**o, "verify": "unverified_content",
-                                 "review_date": review_date})
-            status = "ok" if kept else "no_offers_found"
+                    # 抓到了但原话核不到 -> 只留 data 作留痕，记原因，绝不发布
+                    kept.append({**o, "verify": "unverified",
+                                 "note": "not published: official sentence not found on "
+                                         "fetched page (cannot verify verbatim)"})
+                    print(f"WARN {slug}: official sentence NOT found -> held in data, "
+                          f"not published: {o['offer']}")
+            status = "ok" if any(o.get("verify") == "verified" for o in kept) else "ok_unverified"
         out["providers"].append({**p, "offers": kept, "status": status})
     os.makedirs(os.path.dirname(DATA), exist_ok=True)
     json.dump(out, open(DATA, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
-    total = sum(len(p["offers"]) for p in out["providers"])
-    print(f"scraped {total} verified offers across {len(out['providers'])} providers")
+    published = sum(1 for p in out["providers"] for o in p["offers"]
+                    if o.get("verify") == "verified")
+    held = sum(1 for p in out["providers"] for o in p["offers"]
+               if o.get("verify") != "verified")
+    print(f"published(verified)={published}  held_in_data(unverified)={held} "
+          f"across {len(out['providers'])} providers")
 
 
 if __name__ == "__main__":

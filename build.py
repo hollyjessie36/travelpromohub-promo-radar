@@ -132,8 +132,8 @@ def offers_table(offers, provider):
         offer = o.get("offer")
         cond = o.get("condition")
         official = o.get("official")
-        # 缺真实名 / 真条件 / 官方原话 → 整行摘掉，绝不编、绝不写免责句
-        if not (offer and cond and official):
+        # 缺真实名 / 真条件 / 官方原话 / 未核到原话 → 整行摘掉，绝不编、绝不写核验状态
+        if not (offer and cond and official and o.get("verify") == "verified"):
             continue
         src = o.get("source") or ""
         src_html = (f'<a href="{esc(src)}" rel="nofollow noopener" target="_blank">'
@@ -315,12 +315,14 @@ def main():
     os.makedirs(os.path.join(SITE, "providers"), exist_ok=True)
     os.makedirs(os.path.join(SITE, "deals"), exist_ok=True)
 
-    # 只保留“有真实名 + 真条件 + 官方原话”的 offer；缺一不可 → 整行摘掉，绝不编
+    # 只发布“核到官方页原话（verify=verified）”的 offer：有真实名 + 真条件 + 官方原话 + 已核验。
+    # 核不到原话的只留在 data 里作留痕，不进 site / sitemap / 品牌页 / 对比页。
     providers = data["providers"]
     filtered = {}
     for p in providers:
         filtered[p["slug"]] = [o for o in (p.get("offers") or [])
-                               if o.get("offer") and o.get("condition") and o.get("official")]
+                               if o.get("offer") and o.get("condition") and o.get("official")
+                               and o.get("verify") == "verified"]
 
     all_urls = [f"{burl}/"]
     f, p, u = write_index(cfg, burl, providers, filtered, data)

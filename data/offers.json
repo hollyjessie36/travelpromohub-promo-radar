@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-12T15:15:02.559182+00:00",
+  "fetched_at": "2026-10-12T15:34:20.677632+00:00",
   "brand": "travelpromohub",
   "display": "TravelPromoHub",
   "currency": "USD",
@@ -155,7 +155,7 @@
           "condition": "on your 3+ nights cruise",
           "official": "Save up to $150 by purchasing a CruiseFirst credit on your 3+ nights cruise provided the voyage date is more than ninety (90) days from the original purchase date.",
           "source": "https://www.ncl.com/cruise-deals",
-          "verify": "unverified_content",
+          "verify": "verified",
           "review_date": "2026-10-12"
         }
       ],
