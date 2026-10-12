@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-12T11:50:27.235557+00:00",
+  "fetched_at": "2026-10-12T12:23:56.049849+00:00",
   "brand": "travelpromohub",
   "display": "TravelPromoHub",
   "currency": "USD",
@@ -265,19 +265,8 @@
       "site": "https://www.trip.com",
       "deals": "https://www.trip.com/sale/deals/",
       "outbound": "https://www.trip.com/sale/deals/",
-      "offers": [
-        {
-          "title": "Trip.com: Deals Go Japan Up to 20% off on New Hote",
-          "price": null,
-          "discount": "20% off",
-          "threshold": null,
-          "currency": null,
-          "offer_url": "https://www.trip.com/sale/deals/",
-          "valid_until": null,
-          "source_url": "https://www.trip.com/sale/deals/"
-        }
-      ],
-      "status": "ok"
+      "offers": [],
+      "status": "no_offers_found"
     }
   ]
 }
