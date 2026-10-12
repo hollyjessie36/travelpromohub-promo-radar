@@ -1,0 +1,46 @@
+name: update-offers
+
+# ::ILANG[TYPE:workflow][PROJECT:travelpromohub]
+# 每 6 小时跑一次：抓官方优惠 -> 渲染静态站 -> 提交 site/ 与 data/ -> 部署到 Cloudflare Pages。
+# 数据只在代码仓库里改；要加/减厂商、改文案，都改 .ilang/site.ilang 然后推上来。
+on:
+  schedule:
+    - cron: "0 */6 * * *"   # 与 .ilang/site.ilang 的 update_cron 保持一致
+  workflow_dispatch:        # 允许手动触发一次
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Scrape official offers
+        run: python scraper.py
+
+      - name: Build static site
+        run: python build.py
+
+      - name: Commit refreshed data + site
+        run: |
+          git config user.name "travelpromohub-bot"
+          git config user.email "bot@travelpromohub.pages.dev"
+          git add data/offers.json site/
+          git diff --cached --quiet || git commit -m "chore: refresh offers $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          projectName: travelpromohub
+          directory: site
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

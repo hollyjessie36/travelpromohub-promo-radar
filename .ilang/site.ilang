@@ -1,0 +1,49 @@
+ILANG
+TYPE:config
+PROJECT:travelpromohub
+LANG:zh
+
+::STATE{@SITE, brand:travelpromohub, niche:travel, base_url:https://travelpromohub.pages.dev, domain:travelpromohub.pages.dev}
+::STATE{@BRAND, name:travelpromohub, display:TravelPromoHub}
+::STATE{@NICHE, name:travel, locale:en-US, currency:USD}
+
+::RULE{update_cron:"0 */6 * * *"}
+::RULE{locale:en-US}
+::RULE{currency:USD}
+::RULE{base_url:https://travelpromohub.pages.dev}
+::RULE{domain:travelpromohub.pages.dev}
+
+::MODULE{PROVIDERS|title:抓哪几家 这里改了站就变}
+Priceline | https://www.priceline.com | https://www.priceline.com/partner/deals |
+Hertz | https://www.hertz.com | https://www.hertz.com/rentacar/special-offers |
+Avis | https://www.avis.com | https://www.avis.com/en/offers/us-offers |
+GetYourGuide | https://www.getyourguide.com | https://www.getyourguide.com/c/discount-code |
+Sixt | https://www.sixt.com | https://www.sixt.com/rental-services/best-deals/ |
+IHG | https://www.ihg.com | https://www.ihg.com/offers |
+Wyndham | https://www.wyndhamhotels.com | https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals |
+Norwegian Cruise Line | https://www.ncl.com | https://www.ncl.com/cruise-deals |
+Singapore Airlines | https://www.singaporeair.com | https://www.singaporeair.com/en_UK/sg/plan-travel/promotions/ |
+Trip.com | https://www.trip.com | https://www.trip.com/sale/deals/ |
+::END
+
+::MODULE{FIELDS|title:每条优惠提取什么}
+title | price | currency | offer_url | valid_until | source_url | fetched_at
+::END
+
+::MODULE{SCRAPER|title:抓取规则 代码真的读这里}
+method:public_http
+respect_robots:true
+bypass_anticrawl:false
+user_agent:Mozilla/5.0 (compatible; TravelPromoHubBot/1.0; +https://travelpromohub.pages.dev)
+price_only_current:true
+discard_if_no_real_name:true
+::END
+
+::MODULE{RENDER|title:渲染规则}
+output_dir:site
+templates_dir:templates
+build_command:python build.py
+::END
+
+::BOUNDARY{never:编优惠 编价格 编佣金|scope:permanent}
+::RULE{affiliate_link_empty_uses_naked_official_link:true}

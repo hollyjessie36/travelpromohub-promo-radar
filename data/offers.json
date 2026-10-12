@@ -1,0 +1,293 @@
+{
+  "fetched_at": "2026-10-12T11:01:20.261007+00:00",
+  "brand": "travelpromohub",
+  "display": "TravelPromoHub",
+  "currency": "USD",
+  "locale": "en-US",
+  "providers": [
+    {
+      "name": "Priceline",
+      "slug": "priceline",
+      "site": "https://www.priceline.com",
+      "deals": "https://www.priceline.com/partner/deals",
+      "outbound": "https://www.priceline.com/partner/deals",
+      "offers": [],
+      "status": "no_offers_found"
+    },
+    {
+      "name": "Hertz",
+      "slug": "hertz",
+      "site": "https://www.hertz.com",
+      "deals": "https://www.hertz.com/rentacar/special-offers",
+      "outbound": "https://www.hertz.com/rentacar/special-offers",
+      "offers": [],
+      "status": "no_offers_found"
+    },
+    {
+      "name": "Avis",
+      "slug": "avis",
+      "site": "https://www.avis.com",
+      "deals": "https://www.avis.com/en/offers/us-offers",
+      "outbound": "https://www.avis.com/en/offers/us-offers",
+      "offers": [
+        {
+          "title": "Avis: rental? Visit Avis at any of our city or neighborhood locations, and get up to 10% off your next",
+          "price": null,
+          "discount": "10% off",
+          "threshold": null,
+          "currency": null,
+          "offer_url": "https://www.avis.com/en/offers/us-offers",
+          "valid_until": null,
+          "source_url": "https://www.avis.com/en/offers/us-offers"
+        },
+        {
+          "title": "Avis: Maximum upgrade to premium. Save up to 25% on 5+ day rentals You can save up to 25% off weekly c",
+          "price": null,
+          "discount": "25% off",
+          "threshold": 175.0,
+          "currency": null,
+          "offer_url": "https://www.avis.com/en/offers/us-offers",
+          "valid_until": null,
+          "source_url": "https://www.avis.com/en/offers/us-offers"
+        },
+        {
+          "title": "Avis: more. Weekly car rental deals from Avis make it easy to vacation longer. Enjoy $10 off when yo",
+          "price": 10.0,
+          "discount": null,
+          "threshold": 175.0,
+          "currency": "USD",
+          "offer_url": "https://www.avis.com/en/offers/us-offers",
+          "valid_until": null,
+          "source_url": "https://www.avis.com/en/offers/us-offers"
+        },
+        {
+          "title": "Avis: l deals from Avis make it easy to vacation longer. Enjoy $10 off when you spend $175 on Rental o",
+          "price": 175.0,
+          "discount": null,
+          "threshold": 10.0,
+          "currency": "USD",
+          "offer_url": "https://www.avis.com/en/offers/us-offers",
+          "valid_until": null,
+          "source_url": "https://www.avis.com/en/offers/us-offers"
+        }
+      ],
+      "status": "ok"
+    },
+    {
+      "name": "GetYourGuide",
+      "slug": "getyourguide",
+      "site": "https://www.getyourguide.com",
+      "deals": "https://www.getyourguide.com/c/discount-code",
+      "outbound": "https://www.getyourguide.com/c/discount-code",
+      "offers": [],
+      "status": "robots_disallowed"
+    },
+    {
+      "name": "Sixt",
+      "slug": "sixt",
+      "site": "https://www.sixt.com",
+      "deals": "https://www.sixt.com/rental-services/best-deals/",
+      "outbound": "https://www.sixt.com/rental-services/best-deals/",
+      "offers": [],
+      "status": "robots_disallowed"
+    },
+    {
+      "name": "IHG",
+      "slug": "ihg",
+      "site": "https://www.ihg.com",
+      "deals": "https://www.ihg.com/offers",
+      "outbound": "https://www.ihg.com/offers",
+      "offers": [],
+      "status": "http_403"
+    },
+    {
+      "name": "Wyndham",
+      "slug": "wyndham",
+      "site": "https://www.wyndhamhotels.com",
+      "deals": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
+      "outbound": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
+      "offers": [
+        {
+          "title": "Wyndham: elf. × Wyndham Vacation Clubs: Save 15% on Resort-Style Suites × Members Get 10–20% Off × Winter",
+          "price": null,
+          "discount": "20% off",
+          "threshold": null,
+          "currency": null,
+          "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
+          "valid_until": null,
+          "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
+        },
+        {
+          "title": "Wyndham: embers Save 15% Autumn adventures await: For a limited time, AARP members enjoy 15% off two or m",
+          "price": null,
+          "discount": "15% off",
+          "threshold": 50.0,
+          "currency": null,
+          "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
+          "valid_until": null,
+          "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
+        },
+        {
+          "title": "Wyndham: AARP Members Save 15% Fall into savings: For a limited time, AARP members enjoy 15% off two or m",
+          "price": null,
+          "discount": "15% off",
+          "threshold": null,
+          "currency": null,
+          "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
+          "valid_until": null,
+          "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
+        },
+        {
+          "title": "Wyndham: Price × Bring on the Fireworks! × Get $5+ off per Night × Save up to 20% × Get 15% Off or More ×",
+          "price": null,
+          "discount": "15% off",
+          "threshold": 5.0,
+          "currency": null,
+          "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
+          "valid_until": null,
+          "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
+        },
+        {
+          "title": "Wyndham: s with the NEW Wyndham Rewards Earner® Plus Card. Plus, earn up to 6 points per $1 spent on el",
+          "price": 1.0,
+          "discount": null,
+          "threshold": null,
+          "currency": "USD",
+          "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
+          "valid_until": null,
+          "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
+        },
+        {
+          "title": "Wyndham: first 30 days of joining. 1 Bonus points offer ends Nov. 2, 2026 and requires a $50 minimum spe",
+          "price": 50.0,
+          "discount": null,
+          "threshold": null,
+          "currency": "USD",
+          "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
+          "valid_until": null,
+          "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
+        },
+        {
+          "title": "Wyndham: rtainment × Members Always Get the Lowest Price × Bring on the Fireworks! × Get $5+ off per Ni",
+          "price": 5.0,
+          "discount": null,
+          "threshold": null,
+          "currency": "USD",
+          "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
+          "valid_until": null,
+          "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
+        },
+        {
+          "title": "Wyndham: ash Sale × Members Save 10–20% or More This Fall × All-Inclusive Resorts: Get a $100 On-Property",
+          "price": 100.0,
+          "discount": null,
+          "threshold": null,
+          "currency": "USD",
+          "offer_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
+          "valid_until": null,
+          "source_url": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"
+        }
+      ],
+      "status": "ok"
+    },
+    {
+      "name": "Norwegian Cruise Line",
+      "slug": "norwegian-cruise-line",
+      "site": "https://www.ncl.com",
+      "deals": "https://www.ncl.com/cruise-deals",
+      "outbound": "https://www.ncl.com/cruise-deals",
+      "offers": [
+        {
+          "title": "Norwegian Cruise Line: you’ll find our latest promotions and details on NCL’s Free At Sea™ Upgrade for $59pp/day and r",
+          "price": 59.0,
+          "discount": null,
+          "threshold": null,
+          "currency": "USD",
+          "offer_url": "https://www.ncl.com/cruise-deals",
+          "valid_until": null,
+          "source_url": "https://www.ncl.com/cruise-deals"
+        },
+        {
+          "title": "Norwegian Cruise Line: you’ll find our latest promotions and details on NCL’s Free At Sea™ Upgrade for $69pp/day and r",
+          "price": 69.0,
+          "discount": null,
+          "threshold": null,
+          "currency": "USD",
+          "offer_url": "https://www.ncl.com/cruise-deals",
+          "valid_until": null,
+          "source_url": "https://www.ncl.com/cruise-deals"
+        },
+        {
+          "title": "Norwegian Cruise Line: pply! Be sure to check out our exclusive cruise offer for solo travellers. FREE $150 WITH CRUISE",
+          "price": 150.0,
+          "discount": null,
+          "threshold": null,
+          "currency": "USD",
+          "offer_url": "https://www.ncl.com/cruise-deals",
+          "valid_until": null,
+          "source_url": "https://www.ncl.com/cruise-deals"
+        },
+        {
+          "title": "Norwegian Cruise Line: clusive cruise offer for solo travellers. FREE $150 WITH CRUISEFIRST Save up to $150 by purchasi",
+          "price": 150.0,
+          "discount": null,
+          "threshold": null,
+          "currency": "USD",
+          "offer_url": "https://www.ncl.com/cruise-deals",
+          "valid_until": null,
+          "source_url": "https://www.ncl.com/cruise-deals"
+        },
+        {
+          "title": "Norwegian Cruise Line: y (90) days from the original purchase date. For a Limited time only save up to $150 by purchasi",
+          "price": 150.0,
+          "discount": null,
+          "threshold": null,
+          "currency": "USD",
+          "offer_url": "https://www.ncl.com/cruise-deals",
+          "valid_until": null,
+          "source_url": "https://www.ncl.com/cruise-deals"
+        },
+        {
+          "title": "Norwegian Cruise Line: Deals Transatlantic Deals Weekend Deals --> 2023 FEATURED CRUISES --> Get Up To $100 Free Onboar",
+          "price": 100.0,
+          "discount": null,
+          "threshold": null,
+          "currency": "USD",
+          "offer_url": "https://www.ncl.com/cruise-deals",
+          "valid_until": null,
+          "source_url": "https://www.ncl.com/cruise-deals"
+        }
+      ],
+      "status": "ok"
+    },
+    {
+      "name": "Singapore Airlines",
+      "slug": "singapore-airlines",
+      "site": "https://www.singaporeair.com",
+      "deals": "https://www.singaporeair.com/en_UK/sg/plan-travel/promotions/",
+      "outbound": "https://www.singaporeair.com/en_UK/sg/plan-travel/promotions/",
+      "offers": [],
+      "status": "http_404"
+    },
+    {
+      "name": "Trip.com",
+      "slug": "trip-com",
+      "site": "https://www.trip.com",
+      "deals": "https://www.trip.com/sale/deals/",
+      "outbound": "https://www.trip.com/sale/deals/",
+      "offers": [
+        {
+          "title": "Trip.com: Deals Up to 20% off on New Hote",
+          "price": null,
+          "discount": "20% off",
+          "threshold": null,
+          "currency": null,
+          "offer_url": "https://www.trip.com/sale/deals/",
+          "valid_until": null,
+          "source_url": "https://www.trip.com/sale/deals/"
+        }
+      ],
+      "status": "ok"
+    }
+  ]
+}
