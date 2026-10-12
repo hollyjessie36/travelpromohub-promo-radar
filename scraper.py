@@ -2,8 +2,9 @@
 # 职责：以「人工核过的真实优惠」为唯一真实来源（CURATED_OFFERS），每次运行重新抓取
 # 官方优惠页，逐条核对 official 那一句原话是否还在页面上：
 #   - 页面能抓到且原话还在 -> 保留（刷新 fetched_at / review_date），verify=verified
-#   - 页面能抓到但原话已消失 -> 摘掉（优惠已下架，不编不猜）
+#   - 页面能抓到但原话未确认 -> 保留并标 unverified_content，待人工复核（不自动摘，避免误删真实优惠）
 #   - 页面抓不到（JS / 反爬 / 网络）-> 保留但 verify=unverified_live，沿用复核日期
+# 说明：自动跑不摘优惠；优惠下架由人工核过后从 CURATED_OFFERS 移除，保证跨 IP/地区抓取差异下站不丢真实优惠。
 # 条件（condition）只取 official 原话里真有的限定片段（人群/门槛/天数/有效期/城市网点），
 # 绝不编优惠、编条件、编价格。
 import os
@@ -149,8 +150,12 @@ def main():
                 if norm(o["official"]) in nt:
                     kept.append({**o, "verify": "verified", "review_date": review_date})
                 else:
-                    # 官方页上原话已消失 -> 摘掉，不编不猜
-                    print(f"DROP {slug}: official sentence no longer on page -> {o['offer']}")
+                    # 自动跑时抓到的页面可能因 IP/地区/反爬差异而缺少原话；
+                    # 不在此自动摘掉（避免误删真实优惠），保留并标记待人工复核。
+                    print(f"WARN {slug}: official sentence NOT found on fetched page "
+                          f"-> keep as unverified_content: {o['offer']}")
+                    kept.append({**o, "verify": "unverified_content",
+                                 "review_date": review_date})
             status = "ok" if kept else "no_offers_found"
         out["providers"].append({**p, "offers": kept, "status": status})
     os.makedirs(os.path.dirname(DATA), exist_ok=True)
