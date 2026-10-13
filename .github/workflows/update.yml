@@ -29,11 +29,13 @@ jobs:
         run: python build.py
 
       - name: Commit refreshed data + site
+        continue-on-error: true
         run: |
           git config user.name "travelpromohub-bot"
           git config user.email "bot@travelpromohub.pages.dev"
           git add data/offers.json site/
           git diff --cached --quiet || git commit -m "chore: refresh offers $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git pull --rebase origin main
           git push
 
       - name: Deploy to Cloudflare Pages
