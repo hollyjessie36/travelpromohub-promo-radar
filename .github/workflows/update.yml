@@ -41,18 +41,16 @@ jobs:
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
-          apiKey: ${{ secrets.CF_API_KEY }}
-          email: ${{ secrets.CF_EMAIL }}
+          apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           command: pages deploy site --project-name travelpromohub --branch main
 
       - name: Purge Cloudflare Pages edge cache
         # 部署后清一次边缘缓存，确保被撤下 / 更新的页面不会因边缘缓存（默认最长 7 天）在线上残留。
-        # 用 Global Key (X-Auth-Email + X-Auth-Key) 调用 DELETE .../purge_cache。
+        # 用 CF_API_TOKEN（已含 Pages:Edit）调用 DELETE .../purge_cache。
         continue-on-error: true
         run: |
           curl -s -X DELETE \
             "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CF_ACCOUNT_ID }}/pages/projects/travelpromohub/purge_cache" \
-            -H "X-Auth-Email: ${{ secrets.CF_EMAIL }}" \
-            -H "X-Auth-Key: ${{ secrets.CF_API_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
             -H "Accept: application/json" -w "\npurge_http:%{http_code}\n" || echo "purge skipped"
