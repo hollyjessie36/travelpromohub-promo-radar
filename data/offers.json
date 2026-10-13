@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-13T01:24:22.630915+00:00",
+  "fetched_at": "2026-10-13T01:32:43.825225+00:00",
   "brand": "travelpromohub",
   "display": "TravelPromoHub",
   "currency": "USD",
@@ -184,11 +184,11 @@
           "condition": "on New Hotels",
           "official": "Up to 20% off on New Hotels",
           "source": "https://www.trip.com/sale/deals/",
-          "verify": "unverified",
-          "note": "not published: official sentence not found on fetched page (cannot verify verbatim)"
+          "verify": "verified",
+          "review_date": "2026-10-13"
         }
       ],
-      "status": "ok_unverified"
+      "status": "ok"
     }
   ]
 }
