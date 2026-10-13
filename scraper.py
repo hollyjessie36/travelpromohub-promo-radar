@@ -72,7 +72,7 @@ NO_OFFER_STATUS = {
 }
 
 UA = ("Mozilla/5.0 (compatible; TravelPromoHubBot/1.0; "
-      "+https://travelpromohub.pages.dev)")
+      "+https://travelpromohub.com)")
 ctx = ssl.create_default_context()
 ctx.check_hostname = False
 ctx.verify_mode = ssl.CERT_NONE

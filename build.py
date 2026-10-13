@@ -65,7 +65,7 @@ def load_offers():
 def base_url(cfg):
     b = cfg.get("base_url") or ""
     if not b:
-        b = "https://travelpromohub-site.pages.dev"
+        b = "https://travelpromohub.com"
     return b.rstrip("/")
 
 
