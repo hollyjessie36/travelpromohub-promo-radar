@@ -1,12 +1,9 @@
 name: update-offers
 
-# ::ILANG[TYPE:workflow][PROJECT:travelpromohub]
-# 每 6 小时跑一次：抓官方优惠 -> 渲染静态站 -> 提交 site/ 与 data/ -> 部署到 Cloudflare Pages。
-# 数据只在代码仓库里改；要加/减厂商、改文案，都改 .ilang/site.ilang 然后推上来。
 on:
   schedule:
-    - cron: "0 */6 * * *"   # 与 .ilang/site.ilang 的 update_cron 保持一致
-  workflow_dispatch:        # 允许手动触发一次
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -28,16 +25,6 @@ jobs:
       - name: Build static site
         run: python build.py
 
-      - name: Commit refreshed data + site
-        continue-on-error: true
-        run: |
-          git config user.name "travelpromohub-bot"
-          git config user.email "bot@travelpromohub.pages.dev"
-          git add data/offers.json site/
-          git diff --cached --quiet || git commit -m "chore: refresh offers $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          git pull --rebase origin main
-          git push
-
       - name: Install wrangler
         run: npm install -g wrangler@3.78.12
 
@@ -48,8 +35,6 @@ jobs:
         run: npx wrangler pages deploy site/ --project-name travelpromohub --commit-dirty=true
 
       - name: Purge Cloudflare Pages edge cache
-        # 部署后清一次边缘缓存，确保被撤下 / 更新的页面不会因边缘缓存（默认最长 7 天）在线上残留。
-        # 用 CF_API_TOKEN（已含 Pages:Edit）调用 DELETE .../purge_cache。
         continue-on-error: true
         run: |
           curl -s -X DELETE \
