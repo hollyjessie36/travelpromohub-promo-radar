@@ -49,10 +49,18 @@ table.offers td.official{font-style:italic;color:#33415c}
 .go{display:inline-block;margin-top:8px;color:#1463c8;font-weight:600}
 .small{font-size:12px;color:#7a8aa3}
 footer.site{padding:18px 22px;color:#5a6b85;font-size:13px;border-top:1px solid #e3e9f2;margin-top:30px}
+footer.site nav.footer-links{display:flex;flex-wrap:wrap;gap:18px;margin:0 0 12px}
+footer.site nav.footer-links a{color:#1463c8;text-decoration:none;font-weight:600}
+footer.site nav.footer-links a:hover{text-decoration:underline}
 """
 
 ILANG_NOTE = ("Site rules are described in the I-Lang protocol &mdash; see "
              "<code>.ilang/site.ilang</code>. Protocol info: ilang.ai")
+
+# 联系页邮箱：只有真的从外部发过一封测试信、确认转发进了收件箱，才允许写进页面。
+# 没测过 = 绝不把地址写上去（不许先写个地址顶上）。
+CONTACT_EMAIL = "contact@travelpromohub.com"
+CONTACT_EMAIL_LIVE = False
 
 
 def load_offers():
@@ -295,6 +303,107 @@ def write_404(burl):
     return "404.html", page
 
 
+def write_privacy(cfg, burl):
+    url = f"{burl}/privacy"
+    body = (
+        '<h1>Privacy Policy</h1>'
+        '<h2>What this site is</h2>'
+        f'<p>{esc(cfg["display"])} is a public index of {esc(cfg["niche"])} offers. '
+        'Each offer links to the brand&rsquo;s own official page, where the offer, its '
+        'conditions and its price are set and controlled by that brand.</p>'
+        '<h2>Advertising and affiliate links</h2>'
+        '<p>This site may display third-party advertising and may contain affiliate links. '
+        'Where advertising or affiliate links are shown, they are supplied by third parties, '
+        'not by this site. Those third parties may set their own cookies or identifiers and '
+        'handle information under their own privacy policies. This site does not control what '
+        'those third parties do, and their handling of information is governed by their own '
+        'policies.</p>'
+        '<h2>Offers, prices and terms</h2>'
+        '<p>Offer content, prices and terms are set by each provider, not by this site. This '
+        'site only indexes publicly listed offers and records when each offer was checked '
+        'against the provider&rsquo;s official page. This site does not sell travel services '
+        'and takes no part in any transaction. Any booking or purchase is made directly with '
+        'the provider, under that provider&rsquo;s own terms.</p>'
+        '<h2>Changes</h2>'
+        '<p>This policy is updated when what the site does changes. The current version is '
+        'always the one published on this page.</p>'
+        '<h2>Contact</h2>'
+        f'<p>See the <a href="{burl}/contact">Contact page</a>.</p>'
+    )
+    page = render("index.html", LANG=cfg["locale"].split("-")[0],
+                  TITLE=f'Privacy Policy | {cfg["display"]}',
+                  DESC=f'How {cfg["display"]} handles offers, advertising and affiliate links.',
+                  CANONICAL=url, BASE_URL=burl, OG_TITLE="Privacy Policy",
+                  OG_DESC=f'How {cfg["display"]} handles offers, advertising and affiliate links.',
+                  JSONLD="", CONTENT=body, DISPLAY=cfg["display"], NICHE=cfg["niche"])
+    return "privacy.html", page, url
+
+
+def write_about(cfg, burl):
+    url = f"{burl}/about"
+    body = (
+        '<h1>About this site</h1>'
+        '<h2>What this site is</h2>'
+        f'<p>{esc(cfg["display"])} is a public index of {esc(cfg["niche"])} offers from major '
+        'travel brands. It gathers publicly listed offers in one place so they can be compared, '
+        'and links every offer back to the brand&rsquo;s own official page.</p>'
+        '<h2>How the offers are checked</h2>'
+        '<p>Each brand&rsquo;s official offers page is checked on a fixed schedule. The wording '
+        'and conditions shown for an offer come from the brand&rsquo;s own official page. Every '
+        'page shows a review date &mdash; that date is when that page was last checked.</p>'
+        '<h2>What this site is not</h2>'
+        '<p>This site is not the official site of any travel brand. It is not affiliated with, '
+        'endorsed by, or operated by any of the brands listed here. All brand names, offers and '
+        'trademarks belong to their respective owners.</p>'
+        '<h2>Who runs it</h2>'
+        f'<p>This site is an independent index, published under the name {esc(cfg["display"])}.</p>'
+        '<h2>Contact</h2>'
+        f'<p>See the <a href="{burl}/contact">Contact page</a>.</p>'
+    )
+    page = render("index.html", LANG=cfg["locale"].split("-")[0],
+                  TITLE=f'About | {cfg["display"]}',
+                  DESC=f'What {cfg["display"]} is and how its offers are checked.',
+                  CANONICAL=url, BASE_URL=burl, OG_TITLE="About",
+                  OG_DESC=f'What {cfg["display"]} is and how its offers are checked.',
+                  JSONLD="", CONTENT=body, DISPLAY=cfg["display"], NICHE=cfg["niche"])
+    return "about.html", page, url
+
+
+def write_contact(cfg, burl):
+    url = f"{burl}/contact"
+    if CONTACT_EMAIL_LIVE:
+        # 只有测试信真的转发进了收件箱，才走这一支
+        inner = (
+            '<h2>Email</h2>'
+            f'<p>For questions, corrections, or requests to remove an offer, email: '
+            f'<a href="mailto:{esc(CONTACT_EMAIL)}">{esc(CONTACT_EMAIL)}</a></p>'
+            '<p>Please include the page address (URL) you are writing about, so it can be '
+            'found quickly.</p>'
+        )
+    else:
+        # 还没测过一封真信：按规则不写地址
+        inner = (
+            '<h2>Email</h2>'
+            '<p>A dedicated contact address for this site is being set up. It will be '
+            'published on this page once it is live.</p>'
+        )
+    body = (
+        '<h1>Contact</h1>'
+        f'<p>{esc(cfg["display"])} is an independent index of public {esc(cfg["niche"])} '
+        'offers. It is not the official site of any travel brand, and it cannot make changes '
+        'to an offer, a booking or a price &mdash; those are handled by the provider '
+        'concerned.</p>'
+        + inner
+    )
+    page = render("index.html", LANG=cfg["locale"].split("-")[0],
+                  TITLE=f'Contact | {cfg["display"]}',
+                  DESC=f'How to contact {cfg["display"]}.',
+                  CANONICAL=url, BASE_URL=burl, OG_TITLE="Contact",
+                  OG_DESC=f'How to contact {cfg["display"]}.',
+                  JSONLD="", CONTENT=body, DISPLAY=cfg["display"], NICHE=cfg["niche"])
+    return "contact.html", page, url
+
+
 def write_sitemap(cfg, burl, urls, lastmod):
     lines = ['<?xml version="1.0" encoding="UTF-8"?>',
              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
@@ -345,6 +454,12 @@ def main():
     f, p, u = write_compare(cfg, burl, providers, filtered)
     open(os.path.join(SITE, f), "w", encoding="utf-8").write(p)
     all_urls.append(u)
+
+    # 三个固定页：隐私政策 / 关于 / 联系（页脚三处都链到，且都进 sitemap）
+    for writer in (write_privacy, write_about, write_contact):
+        f, p, u = writer(cfg, burl)
+        open(os.path.join(SITE, f), "w", encoding="utf-8").write(p)
+        all_urls.append(u)
 
     # 配置里每一家厂商都建一页：有核到官方原话的建优惠页，没优惠的建品牌页
     # （写清官方入口 + 核对日期，绝不放任何金额/折扣数字）。这样配置 / 首页 /

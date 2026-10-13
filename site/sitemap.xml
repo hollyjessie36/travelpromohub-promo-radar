@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://travelpromohub.com/</loc><lastmod>2026-10-13</lastmod></url>
+  <url><loc>https://travelpromohub.com/about</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://travelpromohub.com/compare</loc><lastmod>2026-10-13</lastmod></url>
+  <url><loc>https://travelpromohub.com/contact</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://travelpromohub.com/deals/avis_0</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://travelpromohub.com/deals/avis_1</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://travelpromohub.com/deals/avis_2</loc><lastmod>2026-10-13</lastmod></url>
@@ -10,6 +12,7 @@
   <url><loc>https://travelpromohub.com/deals/wyndham_2</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://travelpromohub.com/deals/wyndham_3</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://travelpromohub.com/deals/wyndham_4</loc><lastmod>2026-10-13</lastmod></url>
+  <url><loc>https://travelpromohub.com/privacy</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://travelpromohub.com/providers/avis</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://travelpromohub.com/providers/getyourguide</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://travelpromohub.com/providers/hertz</loc><lastmod>2026-10-13</lastmod></url>
