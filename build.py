@@ -126,9 +126,9 @@ def first_screen_no_offer():
             'available right now.')
 
 
-def offers_table(offers, provider):
+def offers_table(offers, provider, burl=None, slug=None):
     rows = []
-    for o in offers:
+    for i, o in enumerate(offers):
         offer = o.get("offer")
         cond = o.get("condition")
         official = o.get("official")
@@ -138,7 +138,10 @@ def offers_table(offers, provider):
         src = o.get("source") or ""
         src_html = (f'<a href="{esc(src)}" rel="nofollow noopener" target="_blank">'
                     f'{esc(src)}</a>')
-        rows.append(f'<tr><td>{esc(offer)}</td><td>{esc(cond)}</td>'
+        # 品牌页里优惠名链到它自己的详情页，保证每个 deal 页都有入口（首页→品牌页→详情页）
+        what_html = (f'<a href="{burl}/deals/{esc(slug)}_{i}">{esc(offer)}</a>'
+                     if burl and slug else esc(offer))
+        rows.append(f'<tr><td>{what_html}</td><td>{esc(cond)}</td>'
                     f'<td class="official">{esc(official)}</td>'
                     f'<td>{src_html}</td>'
                     f'<td>{esc(o.get("review_date") or REVIEW_DATE)}</td></tr>')
@@ -167,7 +170,7 @@ def write_provider_page(cfg, burl, prov, offers, fetched_at):
         what = f"{len(offers)} public offer(s)"
         body = (f'<h1>{esc(prov["name"])} &mdash; Public travel offers</h1>'
                 f'<div class="firstscreen">{first_screen_provider_offers(prov["name"], len(offers))}</div>'
-                + offers_table(offers, prov["name"])
+                + offers_table(offers, prov["name"], burl, slug)
                 + scrape_line(fetched_at))
     else:
         # 抓不到优惠 / 全部行被摘掉：照实写，不允许出现任何金额或折扣数字
@@ -209,11 +212,14 @@ def write_deal_page(cfg, burl, slug, idx, o, prov, fetched_at):
 
 
 def write_index(cfg, burl, providers, filtered, data):
-    active = [p for p in providers if filtered.get(p["slug"])]
+    # 配置里每一家都上首页品牌表：有优惠的标条数，没优惠的标“暂无公开优惠”。
     cards = "".join(
         f'<a class="card" href="{burl}/providers/{esc(p["slug"])}"><b>{esc(p["name"])}</b> '
         f'<span class="small">&mdash; {len(filtered.get(p["slug"], []))} public offer(s)</span></a>'
-        for p in active)
+        if filtered.get(p["slug"])
+        else f'<a class="card" href="{burl}/providers/{esc(p["slug"])}"><b>{esc(p["name"])}</b> '
+             f'<span class="small">&mdash; No public offers verified yet</span></a>'
+        for p in providers)
     faq = {
         "@context": "https://schema.org", "@type": "FAQPage",
         "mainEntity": [
@@ -226,7 +232,7 @@ def write_index(cfg, burl, providers, filtered, data):
     il = {"@context": "https://schema.org", "@type": "ItemList",
           "itemListElement": [{"@type": "ListItem", "position": i + 1,
                                "url": f"{burl}/providers/{esc(p['slug'])}"}
-                              for i, p in enumerate(active)]}
+                              for i, p in enumerate(providers)]}
     jld = (f'<script type="application/ld+json">{json.dumps(faq, ensure_ascii=False)}</script>\n'
            f'<script type="application/ld+json">{json.dumps(il, ensure_ascii=False)}</script>')
     body = (f'<h1>{cfg["display"]} &mdash; Public travel offers, updated continuously</h1>'
@@ -340,11 +346,11 @@ def main():
     open(os.path.join(SITE, f), "w", encoding="utf-8").write(p)
     all_urls.append(u)
 
-    # 只给有 verified offers 的厂商建页；核不到原话/已撤下的不生成页面、不进 sitemap。
+    # 配置里每一家厂商都建一页：有核到官方原话的建优惠页，没优惠的建品牌页
+    # （写清官方入口 + 核对日期，绝不放任何金额/折扣数字）。这样配置 / 首页 /
+    # sitemap / 实际页面四处保持一致。
     for prov in providers:
         offers = filtered.get(prov["slug"], [])
-        if not offers:
-            continue
         f, p, u = write_provider_page(cfg, burl, prov, offers, data.get("fetched_at", ""))
         open(os.path.join(SITE, f), "w", encoding="utf-8").write(p)
         all_urls.append(u)
