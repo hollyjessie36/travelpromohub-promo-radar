@@ -44,10 +44,3 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
         run: npx wrangler pages deploy site/ --project-name travelpromohub-site --commit-dirty=true
 
-      - name: Purge Cloudflare Pages edge cache
-        continue-on-error: true
-        run: |
-          curl -s -X DELETE \
-            "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CF_ACCOUNT_ID }}/pages/projects/travelpromohub-site/purge_cache" \
-            -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
-            -H "Accept: application/json" -w "\npurge_http:%{http_code}\n" || echo "purge skipped"
