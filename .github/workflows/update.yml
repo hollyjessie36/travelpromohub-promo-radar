@@ -38,12 +38,14 @@ jobs:
           git pull --rebase origin main
           git push
 
+      - name: Install wrangler
+        run: npm install -g wrangler@3.78.12
+
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-          accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          command: pages deploy site/ --project-name travelpromohub --commit-dirty=true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+        run: npx wrangler pages deploy site/ --project-name travelpromohub --commit-dirty=true
 
       - name: Purge Cloudflare Pages edge cache
         # 部署后清一次边缘缓存，确保被撤下 / 更新的页面不会因边缘缓存（默认最长 7 天）在线上残留。
