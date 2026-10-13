@@ -1,5 +1,16 @@
 name: update-offers
 
+# ::ILANG[TYPE:workflow][PROJECT:travelpromohub-site]
+# Every 6 hours: scrape official offers -> render the static site -> commit
+# site/ + data/ -> deploy to Cloudflare Pages.
+#
+# NOTE ON CACHE / WITHDRAWN PAGES
+# Cloudflare Pages deploys do NOT purge the edge cache, and there is no public
+# purge API for Pages projects (POST/DELETE .../pages/projects/<p>/purge_cache
+# is NOT a real endpoint — the path is ignored, so a DELETE there deletes the
+# whole project). Withdrawn offers are therefore guarded in code by
+# functions/deals/[slug].js, which returns a real 404 at the edge before the
+# static-asset cache is consulted. Do NOT re-add a curl "purge" step here.
 on:
   schedule:
     - cron: "0 */6 * * *"
@@ -43,12 +54,3 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
         run: npx wrangler pages deploy site/ --project-name travelpromohub-site --commit-dirty=true
-
-      - name: Purge Cloudflare Pages edge cache
-        continue-on-error: true
-        run: |
-          curl -s -X POST \
-            "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CF_ACCOUNT_ID }}/pages/projects/travelpromohub-site/purge_cache" \
-            -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
-            -H "Accept: application/json" -w "\npurge_http:%{http_code}\n" || echo "purge skipped"
-

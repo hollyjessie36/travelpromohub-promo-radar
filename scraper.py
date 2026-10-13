@@ -35,14 +35,6 @@ CURATED_OFFERS = {
          "official": "Enjoy $10 off when you spend $175 on Rental of 3 Days or More",
          "source": "https://www.avis.com/en/offers/us-offers"},
     ],
-    "norwegian-cruise-line": [
-        {"offer": "CruiseFirst: up to $150 credit",
-         "condition": "on your 3+ nights cruise",
-         "official": ("Save up to $150 by purchasing a CruiseFirst credit on your 3+ nights "
-                      "cruise provided the voyage date is more than ninety (90) days from the "
-                      "original purchase date."),
-         "source": "https://www.ncl.com/cruise-deals"},
-    ],
     "wyndham": [
         {"offer": "Wyndham Rewards members: 10-20% off",
          "condition": "Members",
@@ -66,12 +58,6 @@ CURATED_OFFERS = {
          "condition": "requires a $50 minimum spend",
          "official": "Bonus points offer ends Nov. 2, 2026 and requires a $50 minimum spend.",
          "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals"},
-    ],
-    "trip-com": [
-        {"offer": "Up to 20% off new hotels",
-         "condition": "on New Hotels",
-         "official": "Up to 20% off on New Hotels",
-         "source": "https://www.trip.com/sale/deals/"},
     ],
 }
 

@@ -65,7 +65,7 @@ def load_offers():
 def base_url(cfg):
     b = cfg.get("base_url") or ""
     if not b:
-        b = "https://travelpromohub.pages.dev"
+        b = "https://travelpromohub-site.pages.dev"
     return b.rstrip("/")
 
 
@@ -209,13 +209,11 @@ def write_deal_page(cfg, burl, slug, idx, o, prov, fetched_at):
 
 
 def write_index(cfg, burl, providers, filtered, data):
+    active = [p for p in providers if filtered.get(p["slug"])]
     cards = "".join(
         f'<a class="card" href="{burl}/providers/{esc(p["slug"])}"><b>{esc(p["name"])}</b> '
         f'<span class="small">&mdash; {len(filtered.get(p["slug"], []))} public offer(s)</span></a>'
-        if filtered.get(p["slug"])
-        else f'<a class="card" href="{burl}/providers/{esc(p["slug"])}"><b>{esc(p["name"])}</b> '
-             f'<span class="small">&mdash; No public offers available</span></a>'
-        for p in providers)
+        for p in active)
     faq = {
         "@context": "https://schema.org", "@type": "FAQPage",
         "mainEntity": [
@@ -228,7 +226,7 @@ def write_index(cfg, burl, providers, filtered, data):
     il = {"@context": "https://schema.org", "@type": "ItemList",
           "itemListElement": [{"@type": "ListItem", "position": i + 1,
                                "url": f"{burl}/providers/{esc(p['slug'])}"}
-                              for i, p in enumerate(providers)]}
+                              for i, p in enumerate(active)]}
     jld = (f'<script type="application/ld+json">{json.dumps(faq, ensure_ascii=False)}</script>\n'
            f'<script type="application/ld+json">{json.dumps(il, ensure_ascii=False)}</script>')
     body = (f'<h1>{cfg["display"]} &mdash; Public travel offers, updated continuously</h1>'
@@ -342,9 +340,11 @@ def main():
     open(os.path.join(SITE, f), "w", encoding="utf-8").write(p)
     all_urls.append(u)
 
-    # 配置里每一家厂商都建一页（有优惠的建优惠页，没优惠的建“已核对 暂无”页）
+    # 只给有 verified offers 的厂商建页；核不到原话/已撤下的不生成页面、不进 sitemap。
     for prov in providers:
         offers = filtered.get(prov["slug"], [])
+        if not offers:
+            continue
         f, p, u = write_provider_page(cfg, burl, prov, offers, data.get("fetched_at", ""))
         open(os.path.join(SITE, f), "w", encoding="utf-8").write(p)
         all_urls.append(u)

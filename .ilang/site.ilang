@@ -3,15 +3,15 @@ TYPE:config
 PROJECT:travelpromohub
 LANG:zh
 
-::STATE{@SITE, brand:travelpromohub, niche:travel, base_url:https://travelpromohub.pages.dev, domain:travelpromohub.pages.dev}
+::STATE{@SITE, brand:travelpromohub, niche:travel, base_url:https://travelpromohub-site.pages.dev, domain:travelpromohub-site.pages.dev}
 ::STATE{@BRAND, name:travelpromohub, display:TravelPromoHub}
 ::STATE{@NICHE, name:travel, locale:en-US, currency:USD}
 
 ::RULE{update_cron:"0 */6 * * *"}
 ::RULE{locale:en-US}
 ::RULE{currency:USD}
-::RULE{base_url:https://travelpromohub.pages.dev}
-::RULE{domain:travelpromohub.pages.dev}
+::RULE{base_url:https://travelpromohub-site.pages.dev}
+::RULE{domain:travelpromohub-site.pages.dev}
 
 ::MODULE{PROVIDERS|title:抓哪几家 这里改了站就变}
 Priceline | https://www.priceline.com | https://www.priceline.com/partner/deals |
@@ -34,7 +34,7 @@ offer | condition | official | source | review_date | verify | fetched_at
 method:public_http
 respect_robots:true
 bypass_anticrawl:false
-user_agent:Mozilla/5.0 (compatible; TravelPromoHubBot/1.0; +https://travelpromohub.pages.dev)
+user_agent:Mozilla/5.0 (compatible; TravelPromoHubBot/1.0; +https://travelpromohub-site.pages.dev)
 price_only_current:true
 discard_if_no_real_name:true
 ::END

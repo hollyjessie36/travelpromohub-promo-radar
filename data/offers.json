@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-13T01:35:22.144135+00:00",
+  "fetched_at": "2026-10-13T02:29:38.280461+00:00",
   "brand": "travelpromohub",
   "display": "TravelPromoHub",
   "currency": "USD",
@@ -149,17 +149,8 @@
       "deals": "https://www.ncl.com/cruise-deals",
       "affiliate": "",
       "outbound": "https://www.ncl.com/cruise-deals",
-      "offers": [
-        {
-          "offer": "CruiseFirst: up to $150 credit",
-          "condition": "on your 3+ nights cruise",
-          "official": "Save up to $150 by purchasing a CruiseFirst credit on your 3+ nights cruise provided the voyage date is more than ninety (90) days from the original purchase date.",
-          "source": "https://www.ncl.com/cruise-deals",
-          "verify": "unverified",
-          "note": "not published: official sentence not found on fetched page (cannot verify verbatim)"
-        }
-      ],
-      "status": "ok_unverified"
+      "offers": [],
+      "status": "no_offers_found"
     },
     {
       "name": "Singapore Airlines",
@@ -178,17 +169,8 @@
       "deals": "https://www.trip.com/sale/deals/",
       "affiliate": "",
       "outbound": "https://www.trip.com/sale/deals/",
-      "offers": [
-        {
-          "offer": "Up to 20% off new hotels",
-          "condition": "on New Hotels",
-          "official": "Up to 20% off on New Hotels",
-          "source": "https://www.trip.com/sale/deals/",
-          "verify": "unverified",
-          "note": "not published: official sentence not found on fetched page (cannot verify verbatim)"
-        }
-      ],
-      "status": "ok_unverified"
+      "offers": [],
+      "status": "no_offers_found"
     }
   ]
 }
