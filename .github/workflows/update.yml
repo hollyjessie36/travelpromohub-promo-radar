@@ -43,7 +43,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          command: pages deploy site --project-name travelpromohub --branch main
+          command: pages deploy site/ --project-name travelpromohub --commit-dirty=true
 
       - name: Purge Cloudflare Pages edge cache
         # 部署后清一次边缘缓存，确保被撤下 / 更新的页面不会因边缘缓存（默认最长 7 天）在线上残留。
