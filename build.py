@@ -60,7 +60,7 @@ ILANG_NOTE = ("Site rules are described in the I-Lang protocol &mdash; see "
 # 联系页邮箱：只有真的从外部发过一封测试信、确认转发进了收件箱，才允许写进页面。
 # 没测过 = 绝不把地址写上去（不许先写个地址顶上）。
 CONTACT_EMAIL = "contact@travelpromohub.com"
-CONTACT_EMAIL_LIVE = False
+CONTACT_EMAIL_LIVE = True
 
 
 def load_offers():
