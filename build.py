@@ -62,6 +62,10 @@ ILANG_NOTE = ("Site rules are described in the I-Lang protocol &mdash; see "
 CONTACT_EMAIL = "contact@travelpromohub.com"
 CONTACT_EMAIL_LIVE = True
 
+# 站点所有权验证标签：只放首页 <head> 顶部，其它页不放（占位符默认为空）。
+PARTNERWHIZ_TAG = ('<meta name="partnerwhiz-verify" '
+                   'content="pw_f158c54cf9c6eb22d722f9f5a30241fbe592ec6667eb50b6" />')
+
 
 def load_offers():
     if not os.path.exists(OFFERS):
@@ -83,6 +87,7 @@ def render(template_name, **kw):
     kw.setdefault("ILANG_NOTE", ILANG_NOTE)
     kw.setdefault("YEAR", str(datetime.datetime.now().year))
     kw.setdefault("LANG", "en")
+    kw.setdefault("VERIFY_META", "")
     for k, v in kw.items():
         t = t.replace("[[" + k + "]]", str(v))
     return t
@@ -255,7 +260,8 @@ def write_index(cfg, burl, providers, filtered, data):
                   DESC=f'Public travel offers from major brands, checked against the official page and updated on a schedule.',
                   CANONICAL=f"{burl}/", BASE_URL=burl, OG_TITLE=cfg["display"],
                   OG_DESC=f'Public travel offers, updated on a schedule.',
-                  JSONLD=jld, CONTENT=body, DISPLAY=cfg["display"], NICHE=cfg["niche"])
+                  JSONLD=jld, CONTENT=body, DISPLAY=cfg["display"], NICHE=cfg["niche"],
+                  VERIFY_META=PARTNERWHIZ_TAG)
     return "index.html", page, f"{burl}/"
 
 
