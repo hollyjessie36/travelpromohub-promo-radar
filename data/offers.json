@@ -1,10 +1,10 @@
 {
-  "fetched_at": "2026-10-20T18:26:29.147365+00:00",
+  "fetched_at": "2026-10-21T00:24:11.248084+00:00",
   "brand": "travelpromohub",
   "display": "TravelPromoHub",
   "currency": "USD",
   "locale": "en-US",
-  "review_date": "2026-10-20",
+  "review_date": "2026-10-21",
   "providers": [
     {
       "name": "Priceline",
@@ -40,7 +40,7 @@
           "official": "Save 10% at local Avis locations",
           "source": "https://www.avis.com/en/offers/us-offers",
           "verify": "verified",
-          "review_date": "2026-10-20"
+          "review_date": "2026-10-21"
         },
         {
           "offer": "Up to 25% off 5+ day rentals",
@@ -48,7 +48,7 @@
           "official": "Save up to 25% on 5+ day rentals",
           "source": "https://www.avis.com/en/offers/us-offers",
           "verify": "verified",
-          "review_date": "2026-10-20"
+          "review_date": "2026-10-21"
         },
         {
           "offer": "$10 off on $175+ 3+ day rentals",
@@ -56,7 +56,7 @@
           "official": "Enjoy $10 off when you spend $175 on Rental of 3 Days or More",
           "source": "https://www.avis.com/en/offers/us-offers",
           "verify": "verified",
-          "review_date": "2026-10-20"
+          "review_date": "2026-10-21"
         }
       ],
       "status": "ok"
@@ -105,7 +105,7 @@
           "official": "Members Get 10-20% Off",
           "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
           "verify": "verified",
-          "review_date": "2026-10-20"
+          "review_date": "2026-10-21"
         },
         {
           "offer": "AARP members: 15% off 2+ consecutive nights",
@@ -113,7 +113,7 @@
           "official": "For a limited time, AARP members enjoy 15% off two or more consecutive nights at thousands of participating hotels worldwide.",
           "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
           "verify": "verified",
-          "review_date": "2026-10-20"
+          "review_date": "2026-10-21"
         },
         {
           "offer": "$5+ off per night",
@@ -121,7 +121,7 @@
           "official": "Get $5+ off per Night",
           "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
           "verify": "verified",
-          "review_date": "2026-10-20"
+          "review_date": "2026-10-21"
         },
         {
           "offer": "Earn up to 100,000 Bonus Points (Earner Plus Card)",
@@ -129,7 +129,7 @@
           "official": "Limited-Time Offer: Earn up to 100,000 Bonus Points with the NEW Wyndham Rewards Earner Plus Card.",
           "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
           "verify": "verified",
-          "review_date": "2026-10-20"
+          "review_date": "2026-10-21"
         },
         {
           "offer": "2,000 Bonus Points (dining review, $50 min spend)",
@@ -137,7 +137,7 @@
           "official": "Bonus points offer ends Nov. 2, 2026 and requires a $50 minimum spend.",
           "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
           "verify": "verified",
-          "review_date": "2026-10-20"
+          "review_date": "2026-10-21"
         }
       ],
       "status": "ok"
