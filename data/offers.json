@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-29T00:34:26.305770+00:00",
+  "fetched_at": "2026-10-29T06:38:24.064650+00:00",
   "brand": "travelpromohub",
   "display": "TravelPromoHub",
   "currency": "USD",
@@ -128,8 +128,8 @@
           "condition": "Limited-Time Offer",
           "official": "Limited-Time Offer: Earn up to 100,000 Bonus Points with the NEW Wyndham Rewards Earner Plus Card.",
           "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
-          "verify": "verified",
-          "review_date": "2026-10-29"
+          "verify": "unverified",
+          "note": "not published: official sentence not found on fetched page (cannot verify verbatim)"
         },
         {
           "offer": "2,000 Bonus Points (dining review, $50 min spend)",
