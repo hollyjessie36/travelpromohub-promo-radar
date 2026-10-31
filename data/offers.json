@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-31T00:41:03.266158+00:00",
+  "fetched_at": "2026-10-31T06:37:07.209270+00:00",
   "brand": "travelpromohub",
   "display": "TravelPromoHub",
   "currency": "USD",
@@ -55,8 +55,8 @@
           "condition": "when you spend $175 on Rental of 3 Days or More",
           "official": "Enjoy $10 off when you spend $175 on Rental of 3 Days or More",
           "source": "https://www.avis.com/en/offers/us-offers",
-          "verify": "unverified",
-          "note": "not published: official sentence not found on fetched page (cannot verify verbatim)"
+          "verify": "verified",
+          "review_date": "2026-10-31"
         }
       ],
       "status": "ok"
