@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-11-24T03:50:54.695685+00:00",
+  "fetched_at": "2026-11-24T16:59:59.144957+00:00",
   "brand": "travelpromohub",
   "display": "TravelPromoHub",
   "currency": "USD",
@@ -104,24 +104,24 @@
           "condition": "Members",
           "official": "Members Get 10-20% Off",
           "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
-          "verify": "verified",
-          "review_date": "2026-11-24"
+          "verify": "unverified",
+          "note": "not published: official sentence not found on fetched page (cannot verify verbatim)"
         },
         {
           "offer": "AARP members: 15% off 2+ consecutive nights",
           "condition": "AARP members; two or more consecutive nights",
           "official": "For a limited time, AARP members enjoy 15% off two or more consecutive nights at thousands of participating hotels worldwide.",
           "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
-          "verify": "verified",
-          "review_date": "2026-11-24"
+          "verify": "unverified",
+          "note": "not published: official sentence not found on fetched page (cannot verify verbatim)"
         },
         {
           "offer": "$5+ off per night",
           "condition": "per Night",
           "official": "Get $5+ off per Night",
           "source": "https://www.wyndhamhotels.com/wyndham-rewards/hotel-deals",
-          "verify": "verified",
-          "review_date": "2026-11-24"
+          "verify": "unverified",
+          "note": "not published: official sentence not found on fetched page (cannot verify verbatim)"
         },
         {
           "offer": "Earn up to 100,000 Bonus Points (Earner Plus Card)",
@@ -140,7 +140,7 @@
           "note": "not published: official sentence not found on fetched page (cannot verify verbatim)"
         }
       ],
-      "status": "ok"
+      "status": "ok_unverified"
     },
     {
       "name": "Norwegian Cruise Line",
