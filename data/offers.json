@@ -1,10 +1,10 @@
 {
-  "fetched_at": "2026-11-27T16:13:00.335224+00:00",
+  "fetched_at": "2026-11-28T01:07:56.735415+00:00",
   "brand": "travelpromohub",
   "display": "TravelPromoHub",
   "currency": "USD",
   "locale": "en-US",
-  "review_date": "2026-11-27",
+  "review_date": "2026-11-28",
   "providers": [
     {
       "name": "Priceline",
@@ -48,7 +48,7 @@
           "official": "Save up to 25% on 5+ day rentals",
           "source": "https://www.avis.com/en/offers/us-offers",
           "verify": "verified",
-          "review_date": "2026-11-27"
+          "review_date": "2026-11-28"
         },
         {
           "offer": "$10 off on $175+ 3+ day rentals",
